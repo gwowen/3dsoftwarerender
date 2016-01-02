@@ -9,6 +9,10 @@ public class Bitmap
   // Every pixel component of image
   private final byte m_components[];
 
+  // getter
+  public int GetWidth() { return m_width; }
+  //setter
+  public int GetHeight() { return m_height; }
 
   public Bitmap(int width, int height)
   {
