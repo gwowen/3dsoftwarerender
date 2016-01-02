@@ -25,6 +25,8 @@ public class Display extends Canvas
   // A graphics object that draws into the Canvas's buffers
   private final Graphics m_graphics;
 
+  public Bitmap GetFrameBuffer() { return m_frameBuffer; }
+
   /**
   * Create and initialize the Display
   *
@@ -72,7 +74,7 @@ public class Display extends Canvas
   public void SwapBuffers()
   {
     // copy the framebuffer Bitmap's components to display components
-    // then draw 
+    // then draw
     m_frameBuffer.CopyToByteArray(m_displayComponents);
     m_graphics.drawImage(m_displayImage, 0, 0, m_frameBuffer.GetWidth(),
       m_frameBuffer.GetHeight(), null);
