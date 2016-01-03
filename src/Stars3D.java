@@ -20,16 +20,15 @@ public class Stars3D
     {
       InitStar(i);
     }
-
   }
 
-  private void InitStar(int index)
+  private void InitStar(int i)
   {
     // initializes a star to a random 3D position
     // for the 3D coords (-1 far left, 1 far right, -1 top, 1 bottom)
-    m_starX[index] = 2 * ((float)Math.random() - 0.5f) * m_spread;
-    m_starY[index] = 2 * ((float)Math.random() - 0.5f) * m_spread;
-    m_starZ[index] = ((float)Math.random() + 0.00001f) * m_spread;
+    m_starX[i] = 2 * ((float)Math.random() - 0.5f) * m_spread;
+    m_starY[i] = 2 * ((float)Math.random() - 0.5f) * m_spread;
+    m_starZ[i] = ((float)Math.random() + 0.00001f) * m_spread;
 
   }
 
@@ -52,8 +51,7 @@ public class Stars3D
       int x = (int)((m_starX[i]/m_starZ[i]) * halfWidth + halfWidth);
       int y = (int)((m_starY[i]/m_starZ[i]) * halfHeight + halfHeight);
 
-      if(x < 0 || x >= target.GetWidth() ||
-        (y < 0 || y >= target.GetHeight()))
+      if(x < 0 || x >= target.GetWidth() || (y < 0 || y >= target.GetHeight()))
       {
         InitStar(i);
       }
