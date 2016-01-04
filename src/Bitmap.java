@@ -40,11 +40,11 @@ public class Bitmap
   public void DrawPixel(int x, int y, byte a, byte b, byte g, byte r)
   {
     // represents the index of the cpt we need to start modifiying
-    int index = (x + y + m_width) * 4;
+    int index = (x + y * m_width) * 4;
     m_components[index]     = a;
-    m_components[index + 1] = r;
+    m_components[index + 1] = b;
     m_components[index + 2] = g;
-    m_components[index + 3] = b;
+    m_components[index + 3] = r;
   }
 
   public void CopyToByteArray(byte[] dest)
