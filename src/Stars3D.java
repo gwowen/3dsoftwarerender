@@ -48,8 +48,8 @@ public class Stars3D
         InitStar(i);
       }
 
-      int x = (int)((m_starX[i]/m_starZ[i]) * halfWidth + halfWidth);
-      int y = (int)((m_starY[i]/m_starZ[i]) * halfHeight + halfHeight);
+      int x = (int)((m_starX[i]) * halfWidth + halfWidth);
+      int y = (int)((m_starY[i]) * halfHeight + halfHeight);
 
       if(x < 0 || x >= target.GetWidth() || (y < 0 || y >= target.GetHeight()))
       {

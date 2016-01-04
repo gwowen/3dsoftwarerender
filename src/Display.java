@@ -49,7 +49,9 @@ public class Display extends Canvas
     m_displayImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
     //use this to get direct access to the pixels of the image
     m_displayComponents = ((DataBufferByte)m_displayImage.getRaster().getDataBuffer()).getData();
+
     m_frameBuffer.Clear((byte)0x80);
+    m_frameBuffer.DrawPixel(100, 100, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0xFF);
 
     // create a JFrame specifically to show the display
     m_frame = new JFrame();

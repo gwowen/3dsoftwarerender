@@ -27,7 +27,7 @@ public class Bitmap
     * be a multiple of 4. Again, weird, but doing a[x][y] = blah has proven annoying in
     * the past...
     */
-    m_components = new byte[width * height * 4];
+    m_components = new byte[m_width * m_height * 4];
   }
 
   // clears the bitmap to a shade of gray
@@ -54,7 +54,7 @@ public class Bitmap
       // so basically, we can use the byte type in Java instead, so
       // we're going to discard the alpha component for now. So now it's
       // i * 3 (destination) = i * 4 + 1 to skip over the alpha component
-      dest[i * 3] = m_components[i* 4 + 1];
+      dest[i * 3]     = m_components[i* 4 + 1];
       dest[i * 3 + 1] = m_components[i* 4 + 2];
       dest[i * 3 + 2] = m_components[i* 4 + 3];
     }
