@@ -14,8 +14,8 @@ public class Display extends Canvas
 {
   // The window being used for display
   private final JFrame m_frame;
-  // The bitmap representing the final image to display
-  private final Bitmap m_frameBuffer;
+  // The rendercontext representing the final image to display
+  private final RenderContext m_frameBuffer;
   // Used to display the framebuffer in the window
   private final BufferedImage m_displayImage;
   // The pixels of the display image as an array of byte components
@@ -25,7 +25,7 @@ public class Display extends Canvas
   // A graphics object that draws into the Canvas's buffers
   private final Graphics m_graphics;
 
-  public Bitmap GetFrameBuffer() { return m_frameBuffer; }
+  public RenderContext GetFrameBuffer() { return m_frameBuffer; }
 
   /**
   * Create and initialize the Display
@@ -45,7 +45,7 @@ public class Display extends Canvas
     setMaximumSize(size);
 
     // create images used for display
-    m_frameBuffer = new Bitmap(width, height);
+    m_frameBuffer = new RenderContext(width, height);
     m_displayImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
     //use this to get direct access to the pixels of the image
     m_displayComponents = ((DataBufferByte)m_displayImage.getRaster().getDataBuffer()).getData();
