@@ -26,8 +26,9 @@ public class Main
       //{
       //  target.DrawScanBuffer(j, 300 - j, 300 + j);
       //}
-      target.ScanConvertTriangle(minYVert, midYVert, maxYVert, 0);
-      target.FillShape(100, 200);
+      target.FillTriangle(minYVert, midYVert, maxYVert);
+      //target.ScanConvertTriangle(minYVert, midYVert, maxYVert, 0);
+      //target.FillShape(100, 200);
 
       //stars.UpdateAndRender(target, delta);
       display.SwapBuffers();
