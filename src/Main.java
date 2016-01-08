@@ -4,7 +4,7 @@ public class Main
   {
     Display display = new Display(800, 600, "Awesome 3D Software Rendering!");
     RenderContext target = display.GetFrameBuffer();
-    Stars3D stars = new Stars3D(4096, 64.0f, 20.0f);
+    Stars3D stars = new Stars3D(3, 64.0f, 4.0f);
 
     Vertex minYVert = new Vertex(100, 100);
     Vertex midYVert = new Vertex(150, 200);
