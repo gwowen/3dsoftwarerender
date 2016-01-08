@@ -20,13 +20,14 @@ public class Main
       float delta = (float)((currentTime - previousTime)/1000000000.0);
       previousTime = currentTime;
 
-      target.Clear((byte)0x00);
+      stars.UpdateAndRender(target, delta);
+      //target.Clear((byte)0x00);
 
       //for(int j = 100; j < 200; j++)
       //{
       //  target.DrawScanBuffer(j, 300 - j, 300 + j);
       //}
-      target.FillTriangle(minYVert, midYVert, maxYVert);
+      //target.FillTriangle(minYVert, midYVert, maxYVert);
       //target.ScanConvertTriangle(minYVert, midYVert, maxYVert, 0);
       //target.FillShape(100, 200);
 
