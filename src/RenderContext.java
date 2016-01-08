@@ -59,7 +59,7 @@ public class RenderContext extends Bitmap
     float area = minYVert.TriangleArea(maxYVert, midYVert);
     int handedness = area >= 0 ? 1 : 0;
 
-    ScanConvertTriangle(minYVert, midYVert, maxYVert, 0);
+    ScanConvertTriangle(minYVert, midYVert, maxYVert, handedness);
     FillShape((int)midYVert.GetY(), (int)maxYVert.GetY());
   }
 
