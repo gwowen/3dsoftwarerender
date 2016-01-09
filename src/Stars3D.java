@@ -87,7 +87,6 @@ public class Stars3D
 
         target.FillTriangle(v1, v2, v3);
       }
-
     }
   }
 }
