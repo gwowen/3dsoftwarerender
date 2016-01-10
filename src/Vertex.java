@@ -15,7 +15,7 @@ public class Vertex
     m_y = y;
   }
 
-  public float TriangleArea(Vertex b, Vertex c)
+  public float TriangleAreaTimesTwo(Vertex b, Vertex c)
   {
     float x1 = b.GetX() - m_x;
     float y1 = b.GetY() - m_y;
