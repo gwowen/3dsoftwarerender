@@ -1,18 +1,30 @@
 public class Vertex
 {
-  private float m_x;
-  private float m_y;
+  private Vec4f m_pos;
 
   public float GetX() { return m_x; }
   public float GetY() { return m_y; }
 
-  public void SetX(float x) { m_x = x; }
-  public void SetY(float y) { m_y = y; }
 
-  public Vertex(float x, float y)
+  public Vertex(float x, float y, float z)
   {
-    m_x = x;
-    m_y = y;
+    m_pos = new Vec4f(x, y, z, 1);
+  }
+
+  public Vertex(Vec4f pos)
+  {
+    m_pos = pos;
+  }
+
+  public Vertex Transform(Mat4f transform)
+  {
+    return new Vertex(transform.Transform(m_pos));
+  }
+
+  public Vertex PerspectiveDivide()
+  {
+    return new Vertex( new Vec4f(m_pos.GetX()/m_pos.GetW(), m_pos.GetY()/m_pos.GetW(),
+                m_pos.GetZ()/m_pos.GetW(), m_pos.GetW()))
   }
 
   public float TriangleAreaTimesTwo(Vertex b, Vertex c)
