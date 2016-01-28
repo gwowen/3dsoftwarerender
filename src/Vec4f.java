@@ -40,7 +40,7 @@ public class Vec4f
 
   public Vec4f Normalized()
   {
-    float length = Length()
+    float length = Length();
 
     return new Vec4f(x / length, y / length, z / length, w / length);
   }
@@ -50,8 +50,8 @@ public class Vec4f
     float sinAngle = (float)Math.sin(-angle);
     float cosAngle = (float)Math.cos(-angle);
 
-    return this.Cross(axis.Mul(sinAngle).Add((thus.Mul(cosAngle)).Add(
-    axis.Mul(this.Dot(axis.Mul(1 - cosAngle)))));
+    return this.Cross(axis.Mul(sinAngle).Add((this.Mul(cosAngle)).Add(
+    axis.Mul(this.Dot(axis.Mul(1 - cosAngle))))));
   }
 
   public Vec4f Lerp(Vec4f dest, float lerpFactor)
@@ -96,7 +96,7 @@ public class Vec4f
 
   public Vec4f Div(float r)
   {
-    return new Vec4(x / r, y / r, z / r, w / r);
+    return new Vec4f(x / r, y / r, z / r, w / r);
   }
 
   public Vec4f Abs()
@@ -129,7 +129,7 @@ public class Vec4f
     return w;
   }
 
-  public boolean equals(Vector4f r)
+  public boolean equals(Vec4f r)
   {
     return x == r.GetX() && y == r.GetY() && z == r.GetZ() && w == r.GetW();
   }

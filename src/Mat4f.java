@@ -169,7 +169,7 @@ public class Mat4f
 
   public float[][] GetM()
   {
-    float[][] = new float[4][4];
+    float[][] res = new float[4][4];
 
     for(int i = 0; i < 4; i++)
       for(int j = 0; j < 4; j++)
@@ -188,7 +188,7 @@ public class Mat4f
     this.m = m;
   }
 
-  public void Set(int x, int y)
+  public void Set(int x, int y, float value)
   {
     m[x][y] = value;
   }
