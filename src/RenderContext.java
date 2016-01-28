@@ -31,9 +31,11 @@ public class RenderContext extends Bitmap
 
   public void FillTriangle(Vertex v1, Vertex v2, Vertex v3)
   {
-    Vertex minYVert = v1;
-    Vertex midYVert = v2;
-    Vertex maxYVert = v3;
+    Mat4f screenSpaceTransform =
+      new Mat4f().InitScreenSpaceTransform(GetWidth()/2, GetHeight()/2);
+    Vertex minYVert = v1.Transform(screenSpaceTransform).PerspectiveDivide();
+    Vertex midYVert = v2.Transform(screenSpaceTransform).PerspectiveDivide();
+    Vertex maxYVert = v3.Transform(screenSpaceTransform).PerspectiveDivide();
 
     if(maxYVert.GetY() < midYVert.GetY())
     {
@@ -60,7 +62,7 @@ public class RenderContext extends Bitmap
     int handedness = area >= 0 ? 1 : 0;
 
     ScanConvertTriangle(minYVert, midYVert, maxYVert, handedness);
-    FillShape((int)midYVert.GetY(), (int)maxYVert.GetY());
+    FillShape((int)Math.ceil(midYVert.GetY()), (int)Math.ceil(maxYVert.GetY()));
   }
 
   public void ScanConvertTriangle(Vertex minYVert, Vertex midYVert,
@@ -87,7 +89,8 @@ public class RenderContext extends Bitmap
     }
 
     float xStep = (float)xDist/(float)yDist;
-    float currentX = (float)xStart;
+    float yPrestep = yStart - minYVert.GetY();
+    float currentX = minYVert.GetX() * yPrestep * xStep;
 
     for(int j = yStart; j < yEnd; j++)
     {
