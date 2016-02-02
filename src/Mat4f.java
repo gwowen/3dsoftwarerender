@@ -20,7 +20,7 @@ public class Mat4f
   public Mat4f InitScreenSpaceTransform(float halfWidth, float halfHeight)
   {
     m[0][0] = halfWidth; m[0][1] = 0; m[0][2] = 0; m[0][3] = halfWidth;
-    m[1][0] = 0; m[1][1] =-halfHeight; m[1][2] = 0; m[0][2] = halfHeight;
+    m[1][0] = 0; m[1][1] = -halfHeight; m[1][2] = 0; m[0][2] = halfHeight;
     m[2][0] = 0; m[2][1] = 0; m[2][2] = 1; m[2][3] = 0;
     m[3][0] = 0; m[3][1] = 0; m[3][2] = 0; m[3][3] = 1;
 
@@ -135,7 +135,7 @@ public class Mat4f
     m[0][0] = r.GetX(); m[0][1] = r.GetY(); m[0][2] = r.GetZ(); m[0][3] = 0;
     m[1][0] = u.GetX(); m[1][1] = u.GetY(); m[1][2] = u.GetZ(); m[1][3] = 0;
     m[2][0] = f.GetX(); m[2][1] = f.GetY(); m[2][2] = f.GetZ(); m[2][3] = 0;
-    m[3][0] = 0; m[3][1] = 0; m[3][2] = 0; m[3][3] = 1;
+    m[3][0] = 0;        m[3][1] = 0;        m[3][2] = 0;        m[3][3] = 1;
 
     return this;
   }

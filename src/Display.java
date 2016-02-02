@@ -48,7 +48,8 @@ public class Display extends Canvas
     m_frameBuffer = new RenderContext(width, height);
     m_displayImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
     //use this to get direct access to the pixels of the image
-    m_displayComponents = ((DataBufferByte)m_displayImage.getRaster().getDataBuffer()).getData();
+    m_displayComponents =
+      ((DataBufferByte)m_displayImage.getRaster().getDataBuffer()).getData();
 
     m_frameBuffer.Clear((byte)0x80);
     m_frameBuffer.DrawPixel(100, 100, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0xFF);
@@ -61,6 +62,7 @@ public class Display extends Canvas
     m_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     m_frame.setLocationRelativeTo(null);
     m_frame.setTitle(title);
+    m_frame.setSize(width, height);
     m_frame.setVisible(true);
 
     // allocate 1 display buffer, and use the buffer strategy to get access
@@ -78,8 +80,8 @@ public class Display extends Canvas
     // copy the framebuffer Bitmap's components to display components
     // then draw
     m_frameBuffer.CopyToByteArray(m_displayComponents);
-    m_graphics.drawImage(m_displayImage, 0, 0, m_frameBuffer.GetWidth(),
-      m_frameBuffer.GetHeight(), null);
+    m_graphics.drawImage(m_displayImage, 0, 0,
+    m_frameBuffer.GetWidth(), m_frameBuffer.GetHeight(), null);
     m_bufferStategy.show();
   }
 }
