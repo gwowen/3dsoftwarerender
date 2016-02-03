@@ -4,7 +4,7 @@ public class Main
   {
     Display display = new Display(800, 600, "Awesome 3D Software Rendering!");
     RenderContext target = display.GetFrameBuffer();
-    Stars3D stars = new Stars3D(3, 64.0f, 4.0f);
+    // Stars3D stars = new Stars3D(3, 64.0f, 4.0f);
 
     Vertex minYVert = new Vertex(-1, -1, 0);
     Vertex midYVert = new Vertex(0, 1, 0);
@@ -33,7 +33,7 @@ public class Main
       target.Clear((byte)0x00);
       target.FillTriangle(maxYVert.Transform(transform),
               midYVert.Transform(transform), minYVert.Transform(transform));
-    
+
       display.SwapBuffers();
     }
   }
