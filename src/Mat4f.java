@@ -41,22 +41,10 @@ public class Mat4f
     float sin = (float)Math.sin(angle);
     float cos = (float)Math.cos(angle);
 
-    m[0][0] = cos + x * x * (1-cos);
-    m[0][1] = x *y * (1-cos) - z * sin;
-    m[0][2] = x * z * (1-cos) + y * sin;
-    m[0][3] = 0;
-    m[1][0] = y * x * (1-cos) + z * sin;
-    m[1][1] = cos + y * y * (1-cos);
-    m[1][2] = y * z * (1-cos) - x * sin;
-    m[1][3] = 0;
-    m[2][0] = z * x * (1-cos) - y * sin;
-    m[2][1] = z * y * (1-cos) + x * sin;
-    m[2][2] = cos + z * z * (1-cos);
-    m[2][3] = 0;
-    m[3][0] = 0;
-    m[3][1] = 0;
-    m[3][2] = 0;
-    m[3][3] = 1;
+    m[0][0] = cos + x * x * (1-cos);     m[0][1] = x *y * (1-cos) - z * sin;  m[0][2] = x * z * (1-cos) + y * sin; m[0][3] = 0;
+    m[1][0] = y * x * (1-cos) + z * sin; m[1][1] = cos + y * y * (1-cos);     m[1][2] = y * z * (1-cos) - x * sin; m[1][3] = 0;
+    m[2][0] = z * x * (1-cos) - y * sin; m[2][1] = z * y * (1-cos) + x * sin; m[2][2] = cos + z * z * (1-cos);     m[2][3] = 0;
+    m[3][0] = 0;                         m[3][1] = 0;                         m[3][2] = 0;                         m[3][3] = 1;
 
     return this;
   }
@@ -67,56 +55,20 @@ public class Mat4f
     Mat4f ry = new Mat4f();
     Mat4f rz = new Mat4f();
 
-    rz.m[0][0] = (float)Math.cos(z);
-    rz.m[0][1] = -(float)Math.sin(z);
-    rz.m[0][2] = 0;
-    rz.m[0][3] = 0;
-    rz.m[1][0] = (float)Math.sin(z);
-    rz.m[1][1] = (float)Math.cos(z);
-    rz.m[1][2] = 0;
-    rz.m[1][3] = 0;
-    rz.m[2][0] = 0;
-    rz.m[2][1] = 0;
-    rz.m[2][2] = 1;
-    rz.m[2][3] = 0;
-    rz.m[3][0] = 0;
-    rz.m[3][1] = 0;
-    rz.m[3][2] = 0;
-    rz.m[3][3] = 1;
+    rz.m[0][0] = (float)Math.cos(z); rz.m[0][1] = -(float)Math.sin(z); rz.m[0][2] = 0; rz.m[0][3] = 0;
+    rz.m[1][0] = (float)Math.sin(z); rz.m[1][1] = (float)Math.cos(z);  rz.m[1][2] = 0; rz.m[1][3] = 0;
+    rz.m[2][0] = 0;                  rz.m[2][1] = 0;                   rz.m[2][2] = 1; rz.m[2][3] = 0;
+    rz.m[3][0] = 0;                  rz.m[3][1] = 0;                   rz.m[3][2] = 0; rz.m[3][3] = 1;
 
-    rx.m[0][0] = 1;
-    rx.m[0][1] = 0;
-    rx.m[0][2] = 0;
-    rx.m[0][3] = 0;
-    rx.m[1][0] = 0;
-    rx.m[1][1] = (float)Math.cos(x);
-    rx.m[1][2] = -(float)Math.sin(x);
-    rx.m[1][3] = 0;
-    rx.m[2][0] = 0;
-    rx.m[2][1] = (float)Math.sin(x);
-    rx.m[2][2] = (float)Math.cos(x);
-    rx.m[2][3] = 0;
-    rx.m[3][0] = 0;
-    rx.m[3][1] = 0;
-    rx.m[3][2] = 0;
-    rx.m[3][3] = 1;
+    rx.m[0][0] = 1;                  rx.m[0][1] = 0;                   rx.m[0][2] = 0;                   rx.m[0][3] = 0;
+    rx.m[1][0] = 0;                  rx.m[1][1] = (float)Math.cos(x);  rx.m[1][2] = -(float)Math.sin(x); rx.m[1][3] = 0;
+    rx.m[2][0] = 0;                  rx.m[2][1] = (float)Math.sin(x);  rx.m[2][2] = (float)Math.cos(x);  rx.m[2][3] = 0;
+    rx.m[3][0] = 0;                  rx.m[3][1] = 0;                   rx.m[3][2] = 0;                   rx.m[3][3] = 1;
 
-    ry.m[0][0] = (float)Math.cos(y);
-    ry.m[0][1] = 0;
-    ry.m[0][2] = -(float)Math.sin(x);
-    ry.m[0][3] = 0;
-    ry.m[1][0] = 0;
-    ry.m[1][1] = 1;
-    ry.m[1][2] = 0;
-    ry.m[1][3] = 0;
-    ry.m[2][0] = (float)Math.sin(y);
-    ry.m[2][1] = 0;
-    ry.m[2][2] = (float)Math.cos(y);
-    ry.m[2][3] = 0;
-    ry.m[3][0] = 0;
-    ry.m[3][1] = 0;
-    ry.m[3][2] = 0;
-    ry.m[3][3] = 1;
+    ry.m[0][0] = (float)Math.cos(y); ry.m[0][1] = 0;                   ry.m[0][2] = -(float)Math.sin(x); ry.m[0][3] = 0;
+    ry.m[1][0] = 0;                  ry.m[1][1] = 1;                   ry.m[1][2] = 0;                   ry.m[1][3] = 0;
+    ry.m[2][0] = (float)Math.sin(y); ry.m[2][1] = 0;                   ry.m[2][2] = (float)Math.cos(y);  ry.m[2][3] = 0;
+    ry.m[3][0] = 0;                  ry.m[3][1] = 0;                   ry.m[3][2] = 0;                   ry.m[3][3] = 1;
 
     m = rz.Mul(ry.Mul(rx)).GetM();
     return this;
@@ -138,10 +90,10 @@ public class Mat4f
     float tanHalfFOV = (float)Math.tan(fov / 2);
     float zRange = zNear - zFar;
 
-    m[0][0] = 1.0f / (tanHalfFOV * aspectRatio); m[0][1] = 0; m[0][2] = 0; m[0][3] = 0;
-    m[1][0] = 0; m[1][1] = 1.0f / tanHalfFOV; m[1][2] = 0; m[1][3] = 0;
-    m[2][0] = 0; m[2][1] = 0; m[2][2] = (-zNear -zFar) / zRange; m[2][3] = 0;
-    m[3][0] = 0; m[3][1] = 0; m[3][2] = 1; m[3][3] = 0;
+    m[0][0] = 1.0f / (tanHalfFOV * aspectRatio);              m[0][1] = 0;                 m[0][2] = 0;                       m[0][3] = 0;
+    m[1][0] = 0;                                              m[1][1] = 1.0f / tanHalfFOV; m[1][2] = 0;                       m[1][3] = 0;
+    m[2][0] = 0;                                              m[2][1] = 0;                 m[2][2] = (-zNear -zFar) / zRange; m[2][3] = 0;
+    m[3][0] = 0;                                              m[3][1] = 0;                 m[3][2] = 1;                       m[3][3] = 0;
 
     return this;
   }
@@ -152,10 +104,10 @@ public class Mat4f
     float height = top - bottom;
     float depth = far - near;
 
-    m[0][0] = 2 / width; m[0][1] = 0; m[0][2] = 0; m[0][3] = -(right + left) / width;
-    m[1][0] = 0; m[1][1] = 2 / height; m[1][2] = 0; m[1][3] = -(top + bottom) / height;
-    m[2][0] = 0; m[2][1] = 0; m[2][2] = - 2 / depth; m[2][3] = -(far + near) / depth;
-    m[3][0] = 0; m[3][1] = 0; m[3][2] = 0; m[3][3] = 1;
+    m[0][0] = 2 / width; m[0][1] = 0;          m[0][2] = 0;           m[0][3] = -(right + left) / width;
+    m[1][0] = 0;         m[1][1] = 2 / height; m[1][2] = 0;           m[1][3] = -(top + bottom) / height;
+    m[2][0] = 0;         m[2][1] = 0;          m[2][2] = - 2 / depth; m[2][3] = -(far + near) / depth;
+    m[3][0] = 0;         m[3][1] = 0;          m[3][2] = 0;           m[3][3] = 1;
 
     return this;
   }
