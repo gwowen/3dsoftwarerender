@@ -4,7 +4,7 @@ public class Main
   {
     Display display = new Display(800, 600, "Awesome 3D Software Rendering!");
     RenderContext target = display.GetFrameBuffer();
-    // Stars3D stars = new Stars3D(3, 64.0f, 4.0f);
+
 
     Vertex minYVert = new Vertex(-1, -1, 0);
     Vertex midYVert = new Vertex(0, 1, 0);
@@ -24,7 +24,6 @@ public class Main
       float delta = (float)((currentTime - previousTime)/1000000000.0);
       previousTime = currentTime;
 
-      //stars.UpdateAndRender(target, delta);
       rotCounter += delta;
       Mat4f translation = new Mat4f().InitTranslation(0.0f, 0.0f, 3.0f);
       Mat4f rotation = new Mat4f().InitRotation(0.0f, rotCounter, 0.0f);
