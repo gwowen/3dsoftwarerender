@@ -49,7 +49,7 @@ public class RenderContext extends Bitmap
       midYVert = temp;
     }
 
-    if(maxYVert.GetY() < maxYVert.GetY())
+    if(maxYVert.GetY() < midYVert.GetY())
     {
       Vertex temp = maxYVert;
       maxYVert = midYVert;
