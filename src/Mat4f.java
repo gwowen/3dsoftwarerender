@@ -1,12 +1,15 @@
 public class Mat4f
 {
+  // Matrix coefficients
   private float[][] m;
 
+  // constructor
   public Mat4f()
   {
     m = new float[4][4];
   }
 
+  // initializes and returns the identity matrix
   public Mat4f InitIdentity()
   {
     m[0][0] = 1; m[0][1] = 0; m[0][2] = 0; m[0][3] = 0;
@@ -17,6 +20,7 @@ public class Mat4f
     return this;
   }
 
+  // initializes and returns a screen space transformation matrix
   public Mat4f InitScreenSpaceTransform(float halfWidth, float halfHeight)
   {
     m[0][0] = halfWidth; m[0][1] = 0;            m[0][2] = 0; m[0][3] = halfWidth;
@@ -26,6 +30,7 @@ public class Mat4f
     return this;
   }
 
+  // initializes and returns a translation matrix
   public Mat4f InitTranslation(float x, float y, float z)
   {
     m[0][0] = 1; m[0][1] = 0; m[0][2] = 0; m[0][3] = x;
