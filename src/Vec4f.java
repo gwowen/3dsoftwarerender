@@ -58,9 +58,9 @@ public class Vec4f
     float sinAngle = (float)Math.sin(-angle);
     float cosAngle = (float)Math.cos(-angle);
 
-    return this.Cross(axis.Mul(sinAngle).Add( //rotation on local X
+    return this.Cross(axis.Mul(sinAngle)).Add( //rotation on local X
     (this.Mul(cosAngle)).Add( // rotation on local Z
-    axis.Mul(this.Dot(axis.Mul(1 - cosAngle)))))); // rotation on local Y
+    axis.Mul(this.Dot(axis.Mul(1 - cosAngle))))); // rotation on local Y
   }
 
   // linear interpolation
