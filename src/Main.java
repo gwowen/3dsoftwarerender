@@ -4,7 +4,7 @@ public class Main
   {
     Display display = new Display(800, 600, "Awesome 3D Software Rendering!");
     RenderContext target = display.GetFrameBuffer();
-    //Stars3D stars = new Stars3D(4096, 64.0f, 20.0f);
+    Stars3D stars = new Stars3D(3, 64.0f, 4.0f);
 
     Vertex minYVert = new Vertex(100, 100);
     Vertex midYVert = new Vertex(0, 200);
@@ -20,13 +20,15 @@ public class Main
       float delta = (float)((currentTime - previousTime)/1000000000.0);
       previousTime = currentTime;
 
-      target.Clear((byte)0x00);
+      stars.UpdateAndRender(target, delta);
+
+      //target.Clear((byte)0x00);
 
 //      for(int j = 100; j < 200; j++)
 //      {
 //        target.DrawScanBuffer(j, 300 - j, 300 + j);
 //      }
-      target.FillTriangle(minYVert, midYVert, maxYVert);
+      //target.FillTriangle(minYVert, midYVert, maxYVert);
       //target.ScanConvertTriangle(minYVert, midYVert, maxYVert, 0);
       //target.FillShape(100, 300);
 

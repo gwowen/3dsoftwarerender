@@ -32,13 +32,19 @@ public class Stars3D
 
   }
 
-  public void UpdateAndRender(Bitmap target, float delta)
+  public void UpdateAndRender(RenderContext target, float delta)
   {
     final float tanHalfFOV = (float)Math.tan(Math.toRadians(90.0/2.0));
     target.Clear((byte)0x00);
 
     float halfWidth = target.GetWidth() / 2.0f;
     float halfHeight = target.GetHeight() / 2.0f;
+    int triangleBuilderCounter = 0;
+
+    int x1 = 0;
+    int y1 = 0;
+    int x2 = 0;
+    int y2 = 0;
 
     for(int i = 0; i < m_starX.length; i++)
     {
@@ -52,14 +58,37 @@ public class Stars3D
       int x = (int)((m_starX[i] / (m_starZ[i] * tanHalfFOV)) * halfWidth + halfWidth);
       int y = (int)((m_starY[i] / (m_starZ[i] * tanHalfFOV)) * halfHeight + halfHeight);
 
-      if(x < 0 || x >= target.GetWidth() || (y < 0 || y >= target.GetHeight()))
+      if(x < 0 || x >= target.GetWidth() ||
+        (y < 0 || y >= target.GetHeight()))
       {
         InitStar(i);
+        continue;
       }
-      else
+//      else
+//      {
+//        target.DrawPixel(x, y, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF);
+//      }
+      triangleBuilderCounter++;
+      if(triangleBuilderCounter == 1)
       {
-        target.DrawPixel(x, y, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF);
+        x1 = x;
+        y1 = y;
       }
+      else if(triangleBuilderCounter == 2)
+      {
+        x2 = x;
+        y2 = y;
+      }
+      else if(triangleBuilderCounter == 3)
+      {
+        triangleBuilderCounter = 0;
+        Vertex v1 = new Vertex(x1, y1);
+        Vertex v2 = new Vertex(x2, y2);
+        Vertex v3 = new Vertex(x, y);
+
+        target.FillTriangle(v1, v2, v3);
+      }
+
     }
   }
 }
