@@ -35,6 +35,41 @@ public class RenderContext extends Bitmap
     Vertex midYVert  = v2;
     Vertex maxYVert  = v3;
 
+    //sort the vertices... bit involved
+    // swaps max and mid if mid is greater than max
+    // (i.e v2 > v3)
+    if(maxYVert.GetY() < midYVert.GetY())
+    {
+      Vertex temp = maxYVert;
+      maxYVert = midYVert;
+      midYVert = temp;
+    }
+
+    // if the mid is greater than the min, then
+    // swap them into the minimum vertex
+    if(midYVert.GetY() < minYVert.GetY())
+    {
+      Vertex temp = midYVert;
+      midYVert = minYVert;
+      minYVert = temp;
+    }
+
+    // if after all this swapping, the mid is still greater
+    // than the max, we swap them again so we should end up
+    // with v1, v2, v3 in the right order
+    if(maxYVert.GetY() < midYVert.GetY())
+    {
+      Vertex temp = maxYVert;
+      maxYVert = midYVert;
+      midYVert = temp;
+    }
+
+    float area = minYVert.TriangleAreaTimesTwo(maxYVert, midYVert);
+    //handedness depending on the value of the cross product
+    // > 0, right-handed so it's 1 and on the max side of the scanbuffer
+    // < 0, left-handed so on the min side of the scanbuffer
+    int handedness = area >= 0 ? 1 : 0;
+
     ScanConvertTriangle(minYVert, midYVert, maxYVert, 0);
     FillShape((int)minYVert.GetY(), (int)maxYVert.GetY());
   }

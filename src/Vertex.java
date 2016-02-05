@@ -14,4 +14,19 @@ public class Vertex
     m_x = x;
     m_y = y;
   }
+
+  // 2D cross product of the line from x1 to x2 
+  // and the line from x1 to x3 to determine the
+  // sign of the triangle, and hence whether left
+  // or right handed
+  public float TriangleAreaTimesTwo(Vertex b, Vertex c)
+  {
+    float x1 = b.GetX() - m_x;
+    float y1 = b.GetY() - m_y;
+
+    float x2 = c.GetX() - m_x;
+    float y2 = c.GetY() - m_y;
+
+    return(x1 * y2 - x2 * y1);
+  }
 }
