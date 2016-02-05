@@ -118,6 +118,5 @@ public class RenderContext extends Bitmap
       // progress along the x-axis
       currentX += xStep;
     }
-
   }
 }
