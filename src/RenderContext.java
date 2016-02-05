@@ -29,6 +29,17 @@ public class RenderContext extends Bitmap
     }
   }
 
+  public void FillTriangle(Vertex v1, Vertex v2, Vertex v3)
+  {
+    Vertex minYVert  = v1;
+    Vertex midYVert  = v2;
+    Vertex maxYVert  = v3;
+
+    ScanConvertTriangle(minYVert, midYVert, maxYVert, 0);
+    FillShape((int)minYVert.GetY(), (int)maxYVert.GetY());
+  }
+
+
   public void ScanConvertTriangle(Vertex minYVert, Vertex midYVert,
                                   Vertex maxYVert, int handedness)
   {
