@@ -70,7 +70,7 @@ public class RenderContext extends Bitmap
     // < 0, left-handed so on the min side of the scanbuffer
     int handedness = area >= 0 ? 1 : 0;
 
-    ScanConvertTriangle(minYVert, midYVert, maxYVert, 0);
+    ScanConvertTriangle(minYVert, midYVert, maxYVert, handedness);
     FillShape((int)minYVert.GetY(), (int)maxYVert.GetY());
   }
 
