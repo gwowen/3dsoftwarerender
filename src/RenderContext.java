@@ -28,4 +28,50 @@ public class RenderContext extends Bitmap
       }
     }
   }
+
+  public void ScanConvertTriangle(Vertex minYVert, Vertex midYVert,
+                                  Vertex maxYVert, int handedness)
+  {
+    // minimum side of triangle, by default handedness is zero
+    // however a value of 1 will invert it
+    ScanConvertLine(minYVert, maxYVert, 0 + handedness);
+    //middle vertex of triangle
+    ScanConvertLine(minYVert, midYVert, 1 - handedness);
+    //final vertex of triangle
+    ScanConvertLine(midYVert, maxYVert, 1 - handedness);
+
+  }
+
+  //Implementation of Bresenham's line algorithm
+  private void ScanConvertLine(Vertex minYVert, Vertex maxYVert, int whichSide)
+  {
+    int yStart = (int)minYVert.GetY();
+    int yEnd  = (int)maxYVert.GetY();
+    int xStart = (int)minYVert.GetX();
+    int xEnd = (int)maxYVert.GetX();
+
+    int yDist = yEnd - yStart;
+    int xDist = xEnd - xStart;
+
+    if(yDist <= 0)
+    {
+      return;
+    }
+
+    // how large a step we take along the x-axis for
+    // each y-coordinate
+    float xStep = (float)xDist / (float)yDist;
+    float currentX = (float)xStart;
+
+    for(int j = yStart; j < yEnd; j++)
+    {
+      // if whichSide is zero, we write to the minimum side, if
+      // whichSide is 1, we write to the maximum side
+      m_scanBuffer[j * 2 + whichSide] = (int)currentX;
+
+      // progress along the x-axis
+      currentX += xStep;
+    }
+
+  }
 }
