@@ -31,9 +31,11 @@ public class RenderContext extends Bitmap
 
   public void FillTriangle(Vertex v1, Vertex v2, Vertex v3)
   {
-    Vertex minYVert  = v1;
-    Vertex midYVert  = v2;
-    Vertex maxYVert  = v3;
+    Mat4f screenSpaceTransform =
+      new Mat4f().InitScreenSpaceTransform(GetWidth()/2, GetHeight()/2);
+    Vertex minYVert  = v1.Transform(screenSpaceTransform).PerspectiveDivide();
+    Vertex midYVert  = v2.Transform(screenSpaceTransform).PerspectiveDivide();
+    Vertex maxYVert  = v3.Transform(screenSpaceTransform).PerspectiveDivide();
 
     //sort the vertices... bit involved
     // swaps max and mid if mid is greater than max

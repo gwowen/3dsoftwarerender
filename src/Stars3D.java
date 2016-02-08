@@ -68,26 +68,26 @@ public class Stars3D
 //      {
 //        target.DrawPixel(x, y, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF);
 //      }
-      triangleBuilderCounter++;
-      if(triangleBuilderCounter == 1)
-      {
-        x1 = x;
-        y1 = y;
-      }
-      else if(triangleBuilderCounter == 2)
-      {
-        x2 = x;
-        y2 = y;
-      }
-      else if(triangleBuilderCounter == 3)
-      {
-        triangleBuilderCounter = 0;
-        Vertex v1 = new Vertex(x1, y1);
-        Vertex v2 = new Vertex(x2, y2);
-        Vertex v3 = new Vertex(x, y);
+//      triangleBuilderCounter++;
+//      if(triangleBuilderCounter == 1)
+//      {
+//        x1 = x;
+//        y1 = y;
+  //    }
+//      else if(triangleBuilderCounter == 2)
+//      {
+//        x2 = x;
+//        y2 = y;
+//      }
+//      else if(triangleBuilderCounter == 3)
+  //    {
+  //      triangleBuilderCounter = 0;
+  //      Vertex v1 = new Vertex(x1, y1);
+  //      Vertex v2 = new Vertex(x2, y2);
+  //      Vertex v3 = new Vertex(x, y);
 
-        target.FillTriangle(v1, v2, v3);
-      }
+  //      target.FillTriangle(v1, v2, v3);
+  //    }
 
     }
   }
