@@ -93,13 +93,13 @@ public class RenderContext extends Bitmap
   //Implementation of Bresenham's line algorithm
   private void ScanConvertLine(Vertex minYVert, Vertex maxYVert, int whichSide)
   {
-    int yStart = (int)minYVert.GetY();
-    int yEnd  = (int)maxYVert.GetY();
-    int xStart = (int)minYVert.GetX();
-    int xEnd = (int)maxYVert.GetX();
+    int yStart = (int)Math.ceil(minYVert.GetY());
+    int yEnd  = (int)Math.ceil(maxYVert.GetY());
+    int xStart = (int)Math.ceil(minYVert.GetX());
+    int xEnd = (int)Math.ceil(maxYVert.GetX());
 
-    int yDist = yEnd - yStart;
-    int xDist = xEnd - xStart;
+    float yDist = maxYVert.GetY() - minYVert.GetY();
+    float xDist = maxYVert.GetX() - minYVert.GetX();
 
     if(yDist <= 0)
     {
@@ -109,13 +109,14 @@ public class RenderContext extends Bitmap
     // how large a step we take along the x-axis for
     // each y-coordinate
     float xStep = (float)xDist / (float)yDist;
-    float currentX = (float)xStart;
+    float yPrestep = yStart - minYVert.GetY();
+    float currentX = minYVert.GetX() + yPrestep * xStep;
 
     for(int j = yStart; j < yEnd; j++)
     {
       // if whichSide is zero, we write to the minimum side, if
       // whichSide is 1, we write to the maximum side
-      m_scanBuffer[j * 2 + whichSide] = (int)currentX;
+      m_scanBuffer[j * 2 + whichSide] = (int)Math.ceil(currentX);
 
       // progress along the x-axis
       currentX += xStep;
