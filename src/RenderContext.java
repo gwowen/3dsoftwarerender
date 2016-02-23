@@ -6,7 +6,7 @@ public class RenderContext extends Bitmap
   {
     super(width, height);
     //every y-coord needs two values, hence height * 2
-    m_scanBuffer = new int[height * 2];
+    // m_scanBuffer = new int[height * 2];
   }
 
   public void DrawScanBuffer(int yCoord, int xMin, int xMax)
