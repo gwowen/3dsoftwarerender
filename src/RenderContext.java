@@ -1,32 +1,11 @@
 public class RenderContext extends Bitmap
 {
-  private final int m_scanBuffer[];
+
 
   public RenderContext(int width, int height)
   {
     super(width, height);
-    //every y-coord needs two values, hence height * 2
-    // m_scanBuffer = new int[height * 2];
-  }
 
-  public void DrawScanBuffer(int yCoord, int xMin, int xMax)
-  {
-    m_scanBuffer[yCoord * 2] = xMin;
-    m_scanBuffer[yCoord * 2 + 1] = xMax;
-  }
-
-  public void FillShape(int yMin, int yMax)
-  {
-    for(int j = yMin; j < yMax; j++)
-    {
-      int xMin = m_scanBuffer[j * 2];
-      int xMax = m_scanBuffer[j * 2 + 1];
-
-      for(int i = xMin; i < xMax; i++)
-      {
-        DrawPixel(i, j, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF);
-      }
-    }
   }
 
   public void FillTriangle(Vertex v1, Vertex v2, Vertex v3)
@@ -66,60 +45,55 @@ public class RenderContext extends Bitmap
       midYVert = temp;
     }
 
-    float area = minYVert.TriangleAreaTimesTwo(maxYVert, midYVert);
-    //handedness depending on the value of the cross product
-    // > 0, right-handed so it's 1 and on the max side of the scanbuffer
-    // < 0, left-handed so on the min side of the scanbuffer
-    int handedness = area >= 0 ? 1 : 0;
 
-    ScanConvertTriangle(minYVert, midYVert, maxYVert, handedness);
-    FillShape((int)minYVert.GetY(), (int)maxYVert.GetY());
+    ScanTriangle(minYVert, midYVert, maxYVert,
+                        minYVert.TriangleAreaTimesTwo(maxYVert, midYVert) >= 0);
   }
 
 
-  public void ScanConvertTriangle(Vertex minYVert, Vertex midYVert,
-                                  Vertex maxYVert, int handedness)
+  public void ScanTriangle(Vertex minYVert, Vertex midYVert,
+                                  Vertex maxYVert, boolean handedness)
   {
-    // minimum side of triangle, by default handedness is zero
-    // however a value of 1 will invert it
-    ScanConvertLine(minYVert, maxYVert, 0 + handedness);
-    //middle vertex of triangle
-    ScanConvertLine(minYVert, midYVert, 1 - handedness);
-    //final vertex of triangle
-    ScanConvertLine(midYVert, maxYVert, 1 - handedness);
+    Edge topToBottom = new Edge(minYVert, maxYVert);
+    Edge topToMiddle = new Edge(minYVert, midYVert);
+    Edge middleToBottom = new Edge(midYVert, maxYVert);
 
+    ScanEdges(topToBottom, topToMiddle, handedness);
+    ScanEdges(topToBottom, middleToBottom, handedness);
   }
 
-  //Implementation of Bresenham's line algorithm
-  private void ScanConvertLine(Vertex minYVert, Vertex maxYVert, int whichSide)
+  private void ScanEdges(Edge a, Edge b, boolean handedness)
   {
-    int yStart = (int)Math.ceil(minYVert.GetY());
-    int yEnd  = (int)Math.ceil(maxYVert.GetY());
-    int xStart = (int)Math.ceil(minYVert.GetX());
-    int xEnd = (int)Math.ceil(maxYVert.GetX());
+    Edge left = a;
+    Edge right = b;
 
-    float yDist = maxYVert.GetY() - minYVert.GetY();
-    float xDist = maxYVert.GetX() - minYVert.GetX();
-
-    if(yDist <= 0)
+    // this time, swap based on the handedness of the triangle
+    if(handedness)
     {
-      return;
+      Edge temp = left;
+      left = right;
+      right = temp;
     }
 
-    // how large a step we take along the x-axis for
-    // each y-coordinate
-    float xStep = (float)xDist / (float)yDist;
-    float yPrestep = yStart - minYVert.GetY();
-    float currentX = minYVert.GetX() + yPrestep * xStep;
+    int yStart = b.GetYStart();
+    int yEnd = b.GetYEnd();
 
     for(int j = yStart; j < yEnd; j++)
     {
-      // if whichSide is zero, we write to the minimum side, if
-      // whichSide is 1, we write to the maximum side
-      m_scanBuffer[j * 2 + whichSide] = (int)Math.ceil(currentX);
+      DrawScanLine(left, right, j);
+      left.Step();
+      right.Step();
+    }
+  }
 
-      // progress along the x-axis
-      currentX += xStep;
+  private void DrawScanLine(Edge left, Edge right, int j)
+  {
+    int xMin = (int)Math.ceil(left.GetX());
+    int xMax = (int)Math.ceil(right.GetX());
+
+    for(int i = xMin; i < xMax; i++)
+    {
+      DrawPixel(i, j, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF);
     }
   }
 }
