@@ -93,7 +93,7 @@ public class RenderContext extends Bitmap
     int xMax = (int)Math.ceil(right.GetX());
     float xPrestep = xMin - left.GetX();
 
-    Vec4f color = left.GetColor().Add(gradients.GetColor().Mul(xPrestep));
+    Vec4f color = left.GetColor().Add(gradients.GetColorXStep().Mul(xPrestep));
 
     for(int i = xMin; i < xMax; i++)
     {
