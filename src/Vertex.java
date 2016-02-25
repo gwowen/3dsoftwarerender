@@ -1,9 +1,11 @@
 public class Vertex
 {
   private Vec4f m_pos;
+  private Vec4f m_color;
 
   public float GetX() { return m_pos.GetX(); }
   public float GetY() { return m_pos.GetY(); }
+  public Vec4f GetColor() { return m_color; }
 
 
 
@@ -12,9 +14,10 @@ public class Vertex
     m_pos = new Vec4f(x, y, z, 1);
   }
 
-  public Vertex(Vec4f pos)
+  public Vertex(Vec4f pos, Vec4f color)
   {
     m_pos = pos;
+    m_color = color;
   }
 
   public Vertex Transform(Mat4f transform)

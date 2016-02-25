@@ -54,15 +54,16 @@ public class RenderContext extends Bitmap
   public void ScanTriangle(Vertex minYVert, Vertex midYVert,
                                   Vertex maxYVert, boolean handedness)
   {
+    Gradients gradients = new Gradients(minYVert, midYVert, maxYVert);
     Edge topToBottom = new Edge(minYVert, maxYVert);
     Edge topToMiddle = new Edge(minYVert, midYVert);
     Edge middleToBottom = new Edge(midYVert, maxYVert);
 
-    ScanEdges(topToBottom, topToMiddle, handedness);
-    ScanEdges(topToBottom, middleToBottom, handedness);
+    ScanEdges(gradients, topToBottom, topToMiddle, handedness);
+    ScanEdges(gradients, topToBottom, middleToBottom, handedness);
   }
 
-  private void ScanEdges(Edge a, Edge b, boolean handedness)
+  private void ScanEdges(Gradients gradients, Edge a, Edge b, boolean handedness)
   {
     Edge left = a;
     Edge right = b;
@@ -80,20 +81,28 @@ public class RenderContext extends Bitmap
 
     for(int j = yStart; j < yEnd; j++)
     {
-      DrawScanLine(left, right, j);
+      DrawScanLine(gradients, left, right, j);
       left.Step();
       right.Step();
     }
   }
 
-  private void DrawScanLine(Edge left, Edge right, int j)
+  private void DrawScanLine(Gradients gradients, Edge left, Edge right, int j)
   {
     int xMin = (int)Math.ceil(left.GetX());
     int xMax = (int)Math.ceil(right.GetX());
+    float xPrestep = xMin - left.GetX();
+
+    Vec4f color = left.GetColor().Add(gradients.GetColor().Mul(xPrestep));
 
     for(int i = xMin; i < xMax; i++)
     {
-      DrawPixel(i, j, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF);
+      byte r = (byte)(color.GetX() * 255.0f + 0.5f);
+      byte g = (byte)(color.GetY() * 255.0f + 0.5f);
+      byte b = (byte)(color.GetZ() * 255.0f + 0.5f);
+
+      DrawPixel(i, j, (byte)0xFF, b, g, r);
+      color = color.Add(gradients.GetColorXStep());
     }
   }
 }
