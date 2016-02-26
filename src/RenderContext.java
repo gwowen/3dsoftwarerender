@@ -55,9 +55,9 @@ public class RenderContext extends Bitmap
                                   Vertex maxYVert, boolean handedness)
   {
     Gradients gradients = new Gradients(minYVert, midYVert, maxYVert);
-    Edge topToBottom = new Edge(minYVert, maxYVert);
-    Edge topToMiddle = new Edge(minYVert, midYVert);
-    Edge middleToBottom = new Edge(midYVert, maxYVert);
+    Edge topToBottom = new Edge(gradients, minYVert, maxYVert, 0);
+    Edge topToMiddle = new Edge(gradients, minYVert, midYVert, 0);
+    Edge middleToBottom = new Edge(gradients, midYVert, maxYVert, 1);
 
     ScanEdges(gradients, topToBottom, topToMiddle, handedness);
     ScanEdges(gradients, topToBottom, middleToBottom, handedness);

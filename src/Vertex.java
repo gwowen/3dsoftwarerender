@@ -22,13 +22,13 @@ public class Vertex
 
   public Vertex Transform(Mat4f transform)
   {
-    return new Vertex(transform.Transform(m_pos));
+    return new Vertex(transform.Transform(m_pos), m_color);
   }
 
   public Vertex PerspectiveDivide()
   {
     return new Vertex(new Vec4f(m_pos.GetX()/m_pos.GetW(), m_pos.GetY()/m_pos.GetW(),
-						m_pos.GetZ()/m_pos.GetW(), m_pos.GetW()));
+						m_pos.GetZ()/m_pos.GetW(), m_pos.GetW()), m_color);
   }
 
   // 2D cross product of the line from x1 to x2
