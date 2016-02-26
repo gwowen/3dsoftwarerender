@@ -9,6 +9,7 @@ public class Edge
   public int GetYStart() { return m_yStart; }
   public int GetYEnd() { return m_yEnd; }
 
+  //TODO: Add gradients to this sucker
   public Edge(Vertex minYVert, Vertex maxYVert)
   {
     m_yStart = (int)Math.ceil(minYVert.GetY());
