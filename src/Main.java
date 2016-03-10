@@ -10,9 +10,12 @@ public class Main
     //Vertex midYVert = new Vertex(0, 200);
     //Vertex maxYVert = new Vertex(80, 300);
 
-    Vertex minYVert = new Vertex(-1, -1, 0);
-    Vertex midYVert = new Vertex(0, 1, 0);
-    Vertex maxYVert = new Vertex(1, -1, 0);
+    Vertex minYVert = new Vertex(new Vec4f(-1, -1, 0, 1),
+                                 new Vec4f(1.0f, 0.0f, 0.0f, 0.0f));
+    Vertex midYVert = new Vertex(new Vec4f(0, 1, 0, 1),
+                                 new Vec4f(0.0f, 1.0f, 0.0f, 0.0f));
+    Vertex maxYVert = new Vertex(new Vec4f(1, -1, 0, 1),
+                                 new Vec4f(0.0f, 0.0f, 1.0f, 0.0f));
 
     Mat4f projection = new Mat4f().InitPerspective((float)Math.toRadians(70.0f),
       (float)target.GetWidth()/(float)target.GetHeight(), 0.1f, 1000.0f);
