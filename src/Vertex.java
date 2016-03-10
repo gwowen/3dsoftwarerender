@@ -1,11 +1,11 @@
 public class Vertex
 {
   private Vec4f m_pos;
-  private Vec4f m_color;
+  private Vec4f m_texCoords;
 
   public float GetX() { return m_pos.GetX(); }
   public float GetY() { return m_pos.GetY(); }
-  public Vec4f GetColor() { return m_color; }
+  public Vec4f GetTexCoords() { return m_texCoords; }
 
 
 
@@ -14,21 +14,21 @@ public class Vertex
     m_pos = new Vec4f(x, y, z, 1);
   }
 
-  public Vertex(Vec4f pos, Vec4f color)
+  public Vertex(Vec4f pos, Vec4f texCoords)
   {
     m_pos = pos;
-    m_color = color;
+    m_texCoords = texCoords;
   }
 
   public Vertex Transform(Mat4f transform)
   {
-    return new Vertex(transform.Transform(m_pos), m_color);
+    return new Vertex(transform.Transform(m_pos), m_texCoords);
   }
 
   public Vertex PerspectiveDivide()
   {
     return new Vertex(new Vec4f(m_pos.GetX()/m_pos.GetW(), m_pos.GetY()/m_pos.GetW(),
-						m_pos.GetZ()/m_pos.GetW(), m_pos.GetW()), m_color);
+						m_pos.GetZ()/m_pos.GetW(), m_pos.GetW()), m_texCoords);
   }
 
   // 2D cross product of the line from x1 to x2

@@ -12,7 +12,7 @@ public class Edge
   public int GetYEnd() { return m_yEnd; }
   public Vec4f GetColor() { return m_color; }
 
-  //TODO: Add gradients to this sucker
+  
   public Edge(Gradients gradients, Vertex minYVert, Vertex maxYVert, int minYVertIndex)
   {
     m_yStart = (int)Math.ceil(minYVert.GetY());
