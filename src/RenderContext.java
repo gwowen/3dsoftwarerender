@@ -95,19 +95,27 @@ public class RenderContext extends Bitmap
     int xMax = (int)Math.ceil(right.GetX());
     float xPrestep = xMin - left.GetX();
 
-    float texCoordX = left.GetTexCoordX() +
-                      gradients.GetTexCoordXXStep() * xPrestep;
-    float texCoordY = left.GetTexCoordY() +
-                      gradients.GetTexCoordYXStep() * xPrestep;
+    float xDist = right.GetX() - left.GetX();
+    float texCoordXXStep = (right.GetTexCoordX() - left.GetTexCoordX())/xDist;
+    float texCoordYXStep = (right.GetTexCoordY() - left.GetTexCoordY())/xDist;
+    float oneOverZXStep = (right.GetOneOverZ() - left.GetOneOverZ())/xDist;
+
+
+
+    float texCoordX = left.GetTexCoordX() + texCoordXXStep() * xPrestep;
+    float texCoordY = left.GetTexCoordY() + texCoordYXStep() * xPrestep;
+    float oneOverZ = left.GetOneOverZ() + oneOverZXStep * xPrestep;
 
     for(int i = xMin; i < xMax; i++)
     {
+      float z = 1.0f/oneOverZ;
       int srcX = (int)(texCoordX * (texture.GetWidth() - 1) + 0.5f);
       int srcY = (int)(texCoordY * (texture.GetHeight() - 1) + 0.5f);
 
       CopyPixel(i, j, srcX, srcY, texture);
-      texCoordX += gradients.GetTexCoordXXStep();
-      texCoordY += gradients.GetTexCoordYXStep();
+      oneOverZ += oneOverZXStep;
+      texCoordX += texCoordXXStep();
+      texCoordY += texCoordYXStep();
     }
   }
 }
