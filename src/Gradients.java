@@ -50,15 +50,15 @@ public class Gradients
       (midYVert.GetX() - maxYVert.GetX()))) * oneOverdY;
 
     m_texCoordYXStep =
-      (((m_texCoordX[1] - m_texCoordX[2]) *
+      (((m_texCoordY[1] - m_texCoordY[2]) *
       (minYVert.GetY() - maxYVert.GetY())) -
-      ((m_texCoordX[0] - m_texCoordX[2]) *
+      ((m_texCoordY[0] - m_texCoordY[2]) *
       (midYVert.GetY() - maxYVert.GetY()))) * oneOverdX;
 
     m_texCoordYYStep =
-      (((m_texCoordX[1] - m_texCoordX[2]) *
+      (((m_texCoordY[1] - m_texCoordY[2]) *
       (minYVert.GetX() - maxYVert.GetX())) -
-      ((m_texCoordX[0] - m_texCoordX[2]) *
+      ((m_texCoordY[0] - m_texCoordY[2]) *
       (midYVert.GetX() - maxYVert.GetX()))) * oneOverdY;
   }
 }

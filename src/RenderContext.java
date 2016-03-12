@@ -98,8 +98,8 @@ public class RenderContext extends Bitmap
 
     float texCoordX = left.GetTexCoordX() +
                       gradients.GetTexCoordXXStep() * xPrestep;
-    float texCoordY = left.GetTexCoordX() +
-                      gradients.GetTexCoordXXStep() * xPrestep;
+    float texCoordY = left.GetTexCoordY() +
+                      gradients.GetTexCoordYXStep() * xPrestep;
 
 
     for(int i = xMin; i < xMax; i++)
