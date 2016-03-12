@@ -8,7 +8,7 @@ public class RenderContext extends Bitmap
 
   }
 
-  public void FillTriangle(Vertex v1, Vertex v2, Vertex v3)
+  public void FillTriangle(Vertex v1, Vertex v2, Vertex v3, Bitmap texture)
   {
     Mat4f screenSpaceTransform =
       new Mat4f().InitScreenSpaceTransform(GetWidth()/2, GetHeight()/2);
@@ -47,23 +47,25 @@ public class RenderContext extends Bitmap
 
 
     ScanTriangle(minYVert, midYVert, maxYVert,
-                        minYVert.TriangleAreaTimesTwo(maxYVert, midYVert) >= 0);
+      minYVert.TriangleAreaTimesTwo(maxYVert, midYVert) >= 0,
+      texture);
   }
 
 
   public void ScanTriangle(Vertex minYVert, Vertex midYVert,
-                                  Vertex maxYVert, boolean handedness)
+      Vertex maxYVert, boolean handedness, Bitmap texture)
   {
     Gradients gradients = new Gradients(minYVert, midYVert, maxYVert);
     Edge topToBottom = new Edge(gradients, minYVert, maxYVert, 0);
     Edge topToMiddle = new Edge(gradients, minYVert, midYVert, 0);
     Edge middleToBottom = new Edge(gradients, midYVert, maxYVert, 1);
 
-    ScanEdges(gradients, topToBottom, topToMiddle, handedness);
-    ScanEdges(gradients, topToBottom, middleToBottom, handedness);
+    ScanEdges(gradients, topToBottom, topToMiddle, handedness, texture);
+    ScanEdges(gradients, topToBottom, middleToBottom, handedness, texture);
   }
 
-  private void ScanEdges(Gradients gradients, Edge a, Edge b, boolean handedness)
+  private void ScanEdges(Gradients gradients, Edge a, Edge b, boolean handedness,
+                         Bitmap texture)
   {
     Edge left = a;
     Edge right = b;
@@ -81,7 +83,7 @@ public class RenderContext extends Bitmap
 
     for(int j = yStart; j < yEnd; j++)
     {
-      DrawScanLine(gradients, left, right, j);
+      DrawScanLine(gradients, left, right, j, texture);
       left.Step();
       right.Step();
     }
@@ -102,7 +104,8 @@ public class RenderContext extends Bitmap
 
     for(int i = xMin; i < xMax; i++)
     {
-      int srcX = (int)(texCoordY * (texture.GetHeight() - 1) + 0.5f);
+      int srcX = (int)(texCoordX * (texture.GetWidth() - 1) + 0.5f);
+      int srcY = (int)(texCoordY * (texture.GetHeight() - 1) + 0.5f);
 
       CopyPixel(i, j, srcX, srcY, texture);
       texCoordX += gradients.GetTexCoordXXStep();

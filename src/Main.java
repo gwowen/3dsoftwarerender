@@ -6,6 +6,20 @@ public class Main
     RenderContext target = display.GetFrameBuffer();
     //Stars3D stars = new Stars3D(3, 64.0f, 4.0f);
 
+    Bitmap texture = new Bitmap(32, 32);
+
+    for(int j = 0; j < texture.GetHeight(); j++)
+    {
+      for(int i = 0; i < texture.GetWidth(); i++)
+      {
+        texture.DrawPixel(i, j,
+        (byte)(Math.random() * 255.0 + 0.5),
+        (byte)(Math.random() * 255.0 + 0.5),
+        (byte)(Math.random() * 255.0 + 0.5),
+        (byte)(Math.random() * 255.0 + 0.5));
+      }
+    }
+
     //Vertex minYVert = new Vertex(100, 100);
     //Vertex midYVert = new Vertex(0, 200);
     //Vertex maxYVert = new Vertex(80, 300);
@@ -52,7 +66,8 @@ public class Main
 
       target.Clear((byte)0x00);
       target.FillTriangle(maxYVert.Transform(transform),
-                          midYVert.Transform(transform), minYVert.Transform(transform));
+              midYVert.Transform(transform), minYVert.Transform(transform),
+              texture);
       display.SwapBuffers();
     }
   }

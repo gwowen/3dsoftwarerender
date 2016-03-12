@@ -33,7 +33,7 @@ public class Edge
       gradients.GetTexCoordXXStep() * xPrestep +
       gradients.GetTexCoordXYStep() * yPrestep;
     m_texCoordXStep = gradients.GetTexCoordXYStep() +
-      gradients.GetTexCoordXXStep * m_xStep;
+      gradients.GetTexCoordXXStep() * m_xStep;
 
     m_texCoordY = gradients.GetTexCoordY(minYVertIndex) +
       gradients.GetTexCoordYXStep() * xPrestep +
