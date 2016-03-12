@@ -87,22 +87,26 @@ public class RenderContext extends Bitmap
     }
   }
 
-  private void DrawScanLine(Gradients gradients, Edge left, Edge right, int j)
+  private void DrawScanLine(Gradients gradients, Edge left, Edge right, int j,
+                            Bitmap texture)
   {
     int xMin = (int)Math.ceil(left.GetX());
     int xMax = (int)Math.ceil(right.GetX());
     float xPrestep = xMin - left.GetX();
 
-    Vec4f color = left.GetColor().Add(gradients.GetColorXStep().Mul(xPrestep));
+    float texCoordX = left.GetTexCoordX() +
+                      gradients.GetTexCoordXXStep() * xPrestep;
+    float texCoordY = left.GetTexCoordX() +
+                      gradients.GetTexCoordXXStep() * xPrestep;
+
 
     for(int i = xMin; i < xMax; i++)
     {
-      byte r = (byte)(color.GetX() * 255.0f + 0.5f);
-      byte g = (byte)(color.GetY() * 255.0f + 0.5f);
-      byte b = (byte)(color.GetZ() * 255.0f + 0.5f);
+      int srcX = (int)(texCoordY * (texture.GetHeight() - 1) + 0.5f);
 
-      DrawPixel(i, j, (byte)0xFF, b, g, r);
-      color = color.Add(gradients.GetColorXStep());
+      CopyPixel(i, j, srcX, srcY, texture);
+      texCoordX += gradients.GetTexCoordXXStep();
+      texCoordY += gradients.GetTexCoordYXStep();
     }
   }
 }
