@@ -59,36 +59,23 @@ public class Gradients
     m_texCoordX = new float[3];
     m_texCoordY = new float[3];
 
-    m_texCoordX[0] = minYVert.GetTexCoords().GetX();
-    m_texCoordX[1] = midYVert.GetTexCoords().GetX();
-    m_texCoordX[2] = maxYVert.GetTexCoords().GetX();
+    m_oneOverZ[0] = 1.0f/minYVert.GetPosition().GetW();
+    m_oneOverZ[1] = 1.0f/midYVert.GetPosition().GetW();
+    m_oneOverZ[2] = 1.0f/maxYVert.GetPosition().GetW();
 
-    m_texCoordY[0] = minYVert.GetTexCoords().GetY();
-    m_texCoordY[1] = midYVert.GetTexCoords().GetY();
-    m_texCoordY[2] = maxYVert.GetTexCoords().GetY();
+    m_texCoordX[0] = minYVert.GetTexCoords().GetX() * m_oneOverZ[0];
+    m_texCoordX[1] = midYVert.GetTexCoords().GetX() * m_oneOverZ[1];
+    m_texCoordX[2] = maxYVert.GetTexCoords().GetX() * m_oneOverZ[2];
 
-    m_texCoordXXStep =
-      (((m_texCoordX[1] - m_texCoordX[2]) *
-      (minYVert.GetY() - maxYVert.GetY())) -
-      ((m_texCoordX[0] - m_texCoordX[2]) *
-      (midYVert.GetY() - maxYVert.GetY()))) * oneOverdX;
+    m_texCoordY[0] = minYVert.GetTexCoords().GetY() * m_oneOverZ[0];
+    m_texCoordY[1] = midYVert.GetTexCoords().GetY() * m_oneOverZ[1];
+    m_texCoordY[2] = maxYVert.GetTexCoords().GetY() * m_oneOverZ[2];
 
-    m_texCoordXYStep =
-      (((m_texCoordX[1] - m_texCoordX[2]) *
-      (minYVert.GetX() - maxYVert.GetX())) -
-      ((m_texCoordX[0] - m_texCoordX[2]) *
-      (midYVert.GetX() - maxYVert.GetX()))) * oneOverdY;
-
-    m_texCoordYXStep =
-      (((m_texCoordY[1] - m_texCoordY[2]) *
-      (minYVert.GetY() - maxYVert.GetY())) -
-      ((m_texCoordY[0] - m_texCoordY[2]) *
-      (midYVert.GetY() - maxYVert.GetY()))) * oneOverdX;
-
-    m_texCoordYYStep =
-      (((m_texCoordY[1] - m_texCoordY[2]) *
-      (minYVert.GetX() - maxYVert.GetX())) -
-      ((m_texCoordY[0] - m_texCoordY[2]) *
-      (midYVert.GetX() - maxYVert.GetX()))) * oneOverdY;
+    m_texCoordXXStep = CalcXStep(m_texCoordX, minYVert, midYVert, maxYVert, oneOverdX);
+		m_texCoordXYStep = CalcYStep(m_texCoordX, minYVert, midYVert, maxYVert, oneOverdY);
+		m_texCoordYXStep = CalcXStep(m_texCoordY, minYVert, midYVert, maxYVert, oneOverdX);
+		m_texCoordYYStep = CalcYStep(m_texCoordY, minYVert, midYVert, maxYVert, oneOverdY);
+		m_oneOverZXStep = CalcXStep(m_oneOverZ, minYVert, midYVert, maxYVert, oneOverdX);
+		m_oneOverZYStep = CalcYStep(m_oneOverZ, minYVert, midYVert, maxYVert, oneOverdY);
   }
 }
