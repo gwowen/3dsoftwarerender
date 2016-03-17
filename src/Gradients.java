@@ -2,7 +2,7 @@ public class Gradients
 {
   private float[] m_texCoordX;
   private float[] m_texCoordY;
-  private float[] m_texCoordZ;
+  private float[] m_oneOverZ;
 
   private float m_texCoordXXStep;
   private float m_texCoordXYStep;
@@ -10,9 +10,6 @@ public class Gradients
   private float m_texCoordYYStep;
   private float m_oneOverZXStep;
   private float m_oneOverZYStep;
-
-
-
 
   public float GetTexCoordX(int loc) { return m_texCoordX[loc]; }
   public float GetTexCoordY(int loc) { return m_texCoordY[loc]; }
