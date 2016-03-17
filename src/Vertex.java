@@ -3,7 +3,7 @@ public class Vertex
   private Vec4f m_pos;
   private Vec4f m_texCoords;
 
-  public float GetX() { return m_pos.GetX();
+  public float GetX() { return m_pos.GetX(); }
   public float GetY() { return m_pos.GetY(); }
   public Vec4f GetPosition() { return m_pos; }
   public Vec4f GetTexCoords() { return m_texCoords; }
