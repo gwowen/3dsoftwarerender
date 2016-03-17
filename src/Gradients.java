@@ -33,14 +33,14 @@ public class Gradients
   }
 
   private float CalcYStep(float[] values, Vertex minYVert, Vertex midYVert,
-          Vertex maxYVert, float oneOverdY)
-  {
-    return
-      (((values[1] - values[2])
-      (minYVert.GetX() - maxYVert.GetX())) -
-      ((values[0] - values[2]) *
-      (midYVert.GetX() - maxYVert.GetX()))) * oneOverdY;
-  }
+			Vertex maxYVert, float oneOverdY)
+	{
+		return
+			(((values[1] - values[2]) *
+			(minYVert.GetX() - maxYVert.GetX())) -
+			((values[0] - values[2]) *
+			(midYVert.GetX() - maxYVert.GetX()))) * oneOverdY;
+	}
 
   public Gradients(Vertex minYVert, Vertex midYVert, Vertex maxYVert)
   {
