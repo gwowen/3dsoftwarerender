@@ -88,8 +88,7 @@ public class RenderContext extends Bitmap
     }
   }
 
-  private void DrawScanLine(Gradients gradients, Edge left, Edge right, int j,
-                            Bitmap texture)
+  private void DrawScanLine(Edge left, Edge right, int j, Bitmap texture)
   {
     int xMin = (int)Math.ceil(left.GetX());
     int xMax = (int)Math.ceil(right.GetX());
@@ -109,8 +108,8 @@ public class RenderContext extends Bitmap
     for(int i = xMin; i < xMax; i++)
     {
       float z = 1.0f/oneOverZ;
-      int srcX = (int)(texCoordX * (texture.GetWidth() - 1) + 0.5f);
-      int srcY = (int)(texCoordY * (texture.GetHeight() - 1) + 0.5f);
+      int srcX = (int)((texCoordX * z) * (float)(texture.GetWidth() - 1) + 0.5f);
+      int srcY = (int)((texCoordY * z) * (float)(texture.GetHeight() - 1) + 0.5f);
 
       CopyPixel(i, j, srcX, srcY, texture);
       oneOverZ += oneOverZXStep;
