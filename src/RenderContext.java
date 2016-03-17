@@ -58,12 +58,11 @@ public class RenderContext extends Bitmap
     Edge topToMiddle = new Edge(gradients, minYVert, midYVert, 0);
     Edge middleToBottom = new Edge(gradients, midYVert, maxYVert, 1);
 
-    ScanEdges(gradients, topToBottom, topToMiddle, handedness, texture);
-    ScanEdges(gradients, topToBottom, middleToBottom, handedness, texture);
+    ScanEdges(topToBottom, topToMiddle, handedness, texture);
+    ScanEdges(topToBottom, middleToBottom, handedness, texture);
   }
 
-  private void ScanEdges(Gradients gradients, Edge a, Edge b, boolean handedness,
-                         Bitmap texture)
+  private void ScanEdges(Edge a, Edge b, boolean handedness, Bitmap texture)
   {
     Edge left = a;
     Edge right = b;
@@ -81,7 +80,7 @@ public class RenderContext extends Bitmap
 
     for(int j = yStart; j < yEnd; j++)
     {
-      DrawScanLine(gradients, left, right, j, texture);
+      DrawScanLine(left, right, j, texture);
       left.Step();
       right.Step();
     }
@@ -100,8 +99,8 @@ public class RenderContext extends Bitmap
 
 
 
-    float texCoordX = left.GetTexCoordX() + texCoordXXStep() * xPrestep;
-    float texCoordY = left.GetTexCoordY() + texCoordYXStep() * xPrestep;
+    float texCoordX = left.GetTexCoordX() + texCoordXXStep * xPrestep;
+    float texCoordY = left.GetTexCoordY() + texCoordYXStep * xPrestep;
     float oneOverZ = left.GetOneOverZ() + oneOverZXStep * xPrestep;
 
     for(int i = xMin; i < xMax; i++)
@@ -112,8 +111,8 @@ public class RenderContext extends Bitmap
 
       CopyPixel(i, j, srcX, srcY, texture);
       oneOverZ += oneOverZXStep;
-      texCoordX += texCoordXXStep();
-      texCoordY += texCoordYXStep();
+      texCoordX += texCoordXXStep;
+      texCoordY += texCoordYXStep;
     }
   }
 }
