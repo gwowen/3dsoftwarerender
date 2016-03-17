@@ -4,7 +4,6 @@ public class RenderContext extends Bitmap
   public RenderContext(int width, int height)
   {
     super(width, height);
-
   }
 
   public void FillTriangle(Vertex v1, Vertex v2, Vertex v3, Bitmap texture)

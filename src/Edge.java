@@ -48,7 +48,7 @@ public class Edge
       gradients.GetOneOverZXStep() * xPrestep +
       gradients.GetOneOverZYStep() * yPrestep;
     m_oneOverZStep = gradients.GetOneOverZYStep() +
-      gradients.GetOneOverZXStep * m_xStep;
+      gradients.GetOneOverZXStep() * m_xStep;
 
   }
 
