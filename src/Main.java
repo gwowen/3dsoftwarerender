@@ -48,7 +48,7 @@ public class Main
 
       rotCounter += delta;
       Mat4f translation = new Mat4f().InitTranslation(0.0f, 0.0f, 3.0f);
-      Mat4f rotation = new Mat4f().InitRotation(0.0f, rotCounter, 0.0f);
+      Mat4f rotation = new Mat4f().InitRotation(rotCounter, rotCounter, rotCounter);
       Mat4f transform = projection.Mul(translation.Mul(rotation));
       //stars.UpdateAndRender(target, delta);
 
