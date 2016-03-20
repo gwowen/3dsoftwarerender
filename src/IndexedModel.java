@@ -11,7 +11,11 @@ public class IndexedModel
 
   public IndexedModel()
   {
-
+    m_positions = new ArrayList<Vec4f>();
+    m_texCoords = new ArrayList<Vec4f>();
+    m_normals = new ArrayList<Vec4f>();
+    m_tangents = new ArrayList<Vec4f>();
+    m_indices = new ArrayList<Vec4f>();
   }
 
   public void CalcNormals()
