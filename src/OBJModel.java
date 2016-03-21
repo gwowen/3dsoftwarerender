@@ -25,6 +25,11 @@ public class OBJModel
       @Override
       public boolean equals(Object obj)
       {
+        OBJIndex index = (OBJIndex)obj;
+
+        return m_vertexIndex == index.m_vertexIndex
+        && m_texCoordIndex == index.m_texCoordIndex
+        && m_normalIndex == index.m_normalIndex;
 
       }
 
