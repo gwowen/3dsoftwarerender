@@ -44,7 +44,36 @@ public class IndexedModel
 
   public void CalcTangents()
   {
+    for(int i = 0; i < m_indices.size(); i += 3)
+    {
+      int i0 = m_indices.get(i);
+      int i1 = m_indices.get(i + 1);
+      int i2 = m_indices.get(i + 2);
 
+      Vec4f edge1 = m_positions.get(i1).Sub(m_positions.get(i0));
+      Vec4f edge2 = m_positions.get(i2).Sub(m_positions.get(i0));
+
+      float deltaU1 = m_texCoords.get(i1).GetX() - m_texCoords.get(i0).GetX();
+			float deltaV1 = m_texCoords.get(i1).GetY() - m_texCoords.get(i0).GetY();
+			float deltaU2 = m_texCoords.get(i2).GetX() - m_texCoords.get(i0).GetX();
+			float deltaV2 = m_texCoords.get(i2).GetY() - m_texCoords.get(i0).GetY();
+
+			float dividend = (deltaU1*deltaV2 - deltaU2*deltaV1);
+			float f = dividend == 0 ? 0.0f : 1.0f/dividend;
+
+			Vector4f tangent = new Vector4f(
+					f * (deltaV2 * edge1.GetX() - deltaV1 * edge2.GetX()),
+					f * (deltaV2 * edge1.GetY() - deltaV1 * edge2.GetY()),
+					f * (deltaV2 * edge1.GetZ() - deltaV1 * edge2.GetZ()),
+					0);
+
+			m_tangents.set(i0, m_tangents.get(i0).Add(tangent));
+			m_tangents.set(i1, m_tangents.get(i1).Add(tangent));
+			m_tangents.set(i2, m_tangents.get(i2).Add(tangent));
+		}
+
+    for(int i = 0; i < m_tangents.size(); i++)
+      m_tangents.set(i, m_tangents.get(i).Normalized());
   }
 
   public List<Vec4f> GetPositions() { return m_positions; }
