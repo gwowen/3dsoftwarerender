@@ -99,7 +99,7 @@ public class OBJModel
       }
       else if(tokens[0].equals("vt"))
       {
-        m_texCoords.add(new Vec4f(Float.valuesOf(tokens[1]),
+        m_texCoords.add(new Vec4f(Float.valueOf(tokens[1]),
                         1.0 - Float.valueOf(tokens[2]), 0, 0));
       }
       else if(tokens[0].equals("vn"))
