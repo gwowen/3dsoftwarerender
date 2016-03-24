@@ -6,6 +6,18 @@ public class RenderContext extends Bitmap
     super(width, height);
   }
 
+  public void DrawMesh(Mesh mesh, Mat4f transform, Bitmap texture)
+  {
+    for(int i = 0; i < mesh.GetNumIndices(); i += 3)
+    {
+      FillTriangle(
+        mesh.GetVertex(mesh.GetIndex(i)).Transform(transform),
+        mesh.GetVertex(mesh.GetIndex(i + 1)).Transform(transform),
+        mesh.GetVertex(mesh.GetIndex(i + 2)).Transform(transform),
+        texture);
+    }
+  }
+
   public void FillTriangle(Vertex v1, Vertex v2, Vertex v3, Bitmap texture)
   {
     Mat4f screenSpaceTransform =

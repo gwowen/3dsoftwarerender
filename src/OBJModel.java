@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
-import java.util.map;
+import java.util.Map;
 
 public class OBJModel
 {
@@ -50,7 +50,7 @@ public class OBJModel
   }
 
   private List<Vec4f> m_positions;
-  private List<Vec4f> m_texCoord;
+  private List<Vec4f> m_texCoords;
   private List<Vec4f> m_normals;
   private List<OBJIndex> m_indices;
   private boolean m_hasTexCoords;
@@ -70,17 +70,18 @@ public class OBJModel
     return res;
   }
 
-  public OBJModel(String filename) throws IOException
+  public OBJModel(String fileName) throws IOException
   {
     m_positions = new ArrayList<Vec4f>();
     m_texCoords = new ArrayList<Vec4f>();
-    m_normal = new ArrayList<Vec4f>();
+    m_normals = new ArrayList<Vec4f>();
     m_indices = new ArrayList<OBJIndex>();
     m_hasTexCoords = false;
+    m_hasNormals = false;
 
     BufferedReader meshReader = null;
 
-    meshReader = new BufferedReader(new FileReader(fileName))
+    meshReader = new BufferedReader(new FileReader(fileName));
     String line;
 
     while((line = meshReader.readLine()) != null)

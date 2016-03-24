@@ -23,7 +23,7 @@ public class Mesh
     // add vertices from model to list
     for(int i = 0; i < model.GetPositions().size(); i++)
     {
-      m_vertices.add(new Vertex(model.GetPostions().get(i),
+      m_vertices.add(new Vertex(model.GetPositions().get(i),
                                 model.GetTexCoords().get(i)));
     }
 
