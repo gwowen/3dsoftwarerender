@@ -1,28 +1,16 @@
+import java.io.IOException;
+
+
 public class Main
 {
-  public static void main(String[] args)
+  public static void main(String[] args) throws IOException
   {
     Display display = new Display(800, 600, "Awesome 3D Software Rendering!");
     RenderContext target = display.GetFrameBuffer();
     //Stars3D stars = new Stars3D(3, 64.0f, 4.0f);
 
-    Bitmap texture = new Bitmap(32, 32);
-
-    for(int j = 0; j < texture.GetHeight(); j++)
-    {
-      for(int i = 0; i < texture.GetWidth(); i++)
-      {
-        texture.DrawPixel(i, j,
-        (byte)(Math.random() * 255.0 + 0.5),
-        (byte)(Math.random() * 255.0 + 0.5),
-        (byte)(Math.random() * 255.0 + 0.5),
-        (byte)(Math.random() * 255.0 + 0.5));
-      }
-    }
-
-    //Vertex minYVert = new Vertex(100, 100);
-    //Vertex midYVert = new Vertex(0, 200);
-    //Vertex maxYVert = new Vertex(80, 300);
+    Bitmap texture = new Bitmap("./res/bricks.jpg");
+    Mesh mesh = new Mesh("./res/icosphere.obj");
 
     Vertex minYVert = new Vertex(new Vec4f(-1, -1, 0, 1),
                                  new Vec4f(0.0f, 0.0f, 0.0f, 0.0f));
@@ -33,7 +21,6 @@ public class Main
 
     Mat4f projection = new Mat4f().InitPerspective((float)Math.toRadians(70.0f),
       (float)target.GetWidth()/(float)target.GetHeight(), 0.1f, 1000.0f);
-
 
     float rotCounter = 0.0f;
     long previousTime = System.nanoTime();
@@ -49,6 +36,7 @@ public class Main
       rotCounter += delta;
       Mat4f translation = new Mat4f().InitTranslation(0.0f, 0.0f, 3.0f);
       Mat4f rotation = new Mat4f().InitRotation(rotCounter, rotCounter, rotCounter);
+      Mat4f scale = new Mat4f().InitScale(0.001f, 0.001f, 0.001f);
       Mat4f transform = projection.Mul(translation.Mul(rotation));
       //stars.UpdateAndRender(target, delta);
 
@@ -65,9 +53,7 @@ public class Main
       //stars.UpdateAndRender(target, delta);
 
       target.Clear((byte)0x00);
-      target.FillTriangle(maxYVert.Transform(transform),
-              midYVert.Transform(transform), minYVert.Transform(transform),
-              texture);
+      target.DrawMesh(mesh, transform, texture);
       display.SwapBuffers();
     }
   }

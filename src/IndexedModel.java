@@ -15,7 +15,7 @@ public class IndexedModel
     m_texCoords = new ArrayList<Vec4f>();
     m_normals = new ArrayList<Vec4f>();
     m_tangents = new ArrayList<Vec4f>();
-    m_indices = new ArrayList<Vec4f>();
+    m_indices = new ArrayList<Integer>();
   }
 
   public void CalcNormals()
@@ -38,7 +38,7 @@ public class IndexedModel
     }
 
     for(int i = 0; i < m_normals.size(); i++)
-      m_normals.set(i, m_normals.get(i).Normalized())
+      m_normals.set(i, m_normals.get(i).Normalized());
 
   }
 
@@ -61,7 +61,7 @@ public class IndexedModel
 			float dividend = (deltaU1*deltaV2 - deltaU2*deltaV1);
 			float f = dividend == 0 ? 0.0f : 1.0f/dividend;
 
-			Vector4f tangent = new Vector4f(
+			Vec4f tangent = new Vec4f(
 					f * (deltaV2 * edge1.GetX() - deltaV1 * edge2.GetX()),
 					f * (deltaV2 * edge1.GetY() - deltaV1 * edge2.GetY()),
 					f * (deltaV2 * edge1.GetZ() - deltaV1 * edge2.GetZ()),
