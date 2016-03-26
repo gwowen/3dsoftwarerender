@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class RenderContext extends Bitmap
 {
 
@@ -26,6 +28,10 @@ public class RenderContext extends Bitmap
     Vertex midYVert  = v2.Transform(screenSpaceTransform).PerspectiveDivide();
     Vertex maxYVert  = v3.Transform(screenSpaceTransform).PerspectiveDivide();
 
+    if(minYVert.TriangleAreaTimesTwo(maxYVert, midYVert) >= 0)
+    {
+      return;
+    }
     //sort the vertices... bit involved
     // swaps max and mid if mid is greater than max
     // (i.e v2 > v3)

@@ -88,7 +88,6 @@ public class Bitmap
   {
     int destIndex = (destX + destY * m_width) * 4;
     int srcIndex = (srcX + srcY + src.GetWidth()) * 4;
-
     m_components[destIndex] = src.GetComponent(srcIndex);
     m_components[destIndex + 1] = src.GetComponent(srcIndex + 1);
     m_components[destIndex + 2] = src.GetComponent(srcIndex + 2);
