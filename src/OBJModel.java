@@ -100,7 +100,7 @@ public class OBJModel
       else if(tokens[0].equals("vt"))
       {
         m_texCoords.add(new Vec4f(Float.valueOf(tokens[1]),
-                        1.0 - Float.valueOf(tokens[2]), 0, 0));
+                        1.0f - Float.valueOf(tokens[2]), 0, 0));
       }
       else if(tokens[0].equals("vn"))
       {
@@ -141,7 +141,12 @@ public class OBJModel
       if(m_hasTexCoords)
         currentTexCoord = m_texCoords.get(currentIndex.GetTexCoordIndex());
       else
-        currentNormal = new Vec4f(0,0,0,0);
+        currentTexCoord = new Vec4f(0,0,0,0);
+
+      if(m_hasNormals)
+        currentNormal = m_normals.get(currentIndex.GetNormalIndex());
+      else
+        currentNormal = new Vec4f(0, 0, 0, 0);
 
       Integer modelVertexIndex = resultIndexMap.get(currentIndex);
 
