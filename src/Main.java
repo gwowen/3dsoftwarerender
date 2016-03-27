@@ -10,7 +10,7 @@ public class Main
     //Stars3D stars = new Stars3D(3, 64.0f, 4.0f);
 
     Bitmap texture = new Bitmap("./res/bricks.jpg");
-    Mesh mesh = new Mesh("./res/icosphere.obj");
+    Mesh mesh = new Mesh("./res/monkey1.obj");
 
     Vertex minYVert = new Vertex(new Vec4f(-1, -1, 0, 1),
                                  new Vec4f(0.0f, 0.0f, 0.0f, 0.0f));
@@ -35,7 +35,7 @@ public class Main
 
       rotCounter += delta;
       Mat4f translation = new Mat4f().InitTranslation(0.0f, 0.0f, 3.0f);
-      Mat4f rotation = new Mat4f().InitRotation(rotCounter, rotCounter, rotCounter);
+      Mat4f rotation = new Mat4f().InitRotation(rotCounter, 0.0f, rotCounter);
       Mat4f scale = new Mat4f().InitScale(0.001f, 0.001f, 0.001f);
       Mat4f transform = projection.Mul(translation.Mul(rotation));
       //stars.UpdateAndRender(target, delta);
@@ -53,6 +53,7 @@ public class Main
       //stars.UpdateAndRender(target, delta);
 
       target.Clear((byte)0x00);
+      target.ClearDepthBuffer();
       target.DrawMesh(mesh, transform, texture);
       display.SwapBuffers();
     }
