@@ -115,8 +115,6 @@ public class RenderContext extends Bitmap
     float texCoordYXStep = (right.GetTexCoordY() - left.GetTexCoordY())/xDist;
     float oneOverZXStep = (right.GetOneOverZ() - left.GetOneOverZ())/xDist;
 
-
-
     float texCoordX = left.GetTexCoordX() + texCoordXXStep * xPrestep;
     float texCoordY = left.GetTexCoordY() + texCoordYXStep * xPrestep;
     float oneOverZ = left.GetOneOverZ() + oneOverZXStep * xPrestep;
