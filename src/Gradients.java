@@ -81,7 +81,7 @@ public class Gradients
     m_texCoordYYStep = CalcYStep(m_texCoordY, minYVert, midYVert, maxYVert, oneOverdY);
     m_oneOverZXStep = CalcXStep(m_oneOverZ, minYVert, midYVert, maxYVert, oneOverdX);
     m_oneOverZYStep = CalcYStep(m_oneOverZ, minYVert, midYVert, maxYVert, oneOverdY);
-    m_depthXStep = CalcXStep(m_oneOverZ, minYVert, midYVert, maxYVert, oneOverdX);
-    m_depthYStep = CalcYStep(m_oneOverZ, minYVert, midYVert, maxYVert, oneOverdY);
+    m_depthXStep = CalcXStep(m_depth, minYVert, midYVert, maxYVert, oneOverdX);
+    m_depthYStep = CalcYStep(m_depth, minYVert, midYVert, maxYVert, oneOverdY);
   }
 }
