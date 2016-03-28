@@ -64,7 +64,7 @@ public class Gradients
     m_depth = new float[3];
 
     m_depth[0] = minYVert.GetPosition().GetZ();
-    m_depth[0] = midYVert.GetPosition().GetZ();
+    m_depth[1] = midYVert.GetPosition().GetZ();
     m_depth[2] = maxYVert.GetPosition().GetZ();
 
     m_oneOverZ[0] = 1.0f/minYVert.GetPosition().GetW();
