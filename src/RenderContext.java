@@ -30,6 +30,12 @@ public class RenderContext extends Bitmap
     }
   }
 
+  private void ClipPolygonComponent(List<Vertex> vertices, int componentIndex,
+          float componentFactor, List<Vertex> result)
+  {
+
+  }
+
   public void FillTriangle(Vertex v1, Vertex v2, Vertex v3, Bitmap texture)
   {
     Mat4f screenSpaceTransform =
