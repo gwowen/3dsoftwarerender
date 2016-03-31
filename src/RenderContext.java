@@ -30,10 +30,45 @@ public class RenderContext extends Bitmap
     }
   }
 
+  private boolean ClipPolygonAxis(List<Vertex> vertices,
+          List<Vertex> auxillary, int componentIndex)
+  {
+
+  }
+
   private void ClipPolygonComponent(List<Vertex> vertices, int componentIndex,
           float componentFactor, List<Vertex> result)
   {
+      // last vertex looked at in process of clipping
+      Vertex previousVertex = vertices.get(vertices.size() - 1);
+      float previousComponent = previousVertex.Get(componentIndex) * componentFactor;
+      boolean previousInside = previousComponent <= previousVertex.GetPosition.GetW();
 
+      Iterator<Vertex> it = vertices.iterator();
+      while(it.hasNext())
+      {
+        Vertex currentVertex = it.next();
+        float currentComponent = previousVertex.Get(componentIndex) * componentFactor;
+        boolean currentInside = currentComponent <= currentVertex.GetPosition.GetW();
+
+        if(currentInside ^ previousVertex)
+        {
+            float lerpAmt = (previousVertex.GetPosition().GetW() - previousComponent) /
+                ((previousVertex.GetPosition().GetW() - previousComponent) -
+                (previousVertex.GetPosition().GetW() - currentComponent))
+
+            result.add(previousVertex.Lerp(currentVertex, lerpAmt));
+        }
+
+        if(currentInside)
+        {
+          result.add(currentVertex);
+        }
+
+        previousVertex = currentVertex;
+        previousInside = currentComponent;
+        previousInside = currentInside;
+      }
   }
 
   public void FillTriangle(Vertex v1, Vertex v2, Vertex v3, Bitmap texture)
