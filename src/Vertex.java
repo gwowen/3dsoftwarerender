@@ -58,7 +58,7 @@ public class Vertex
     return
       Math.abs(m_pos.GetX()) <= Math.abs(m_pos.GetW()) &&
       Math.abs(m_pos.GetY()) <= Math.abs(m_pos.GetW()) &&
-      Math.abs(m_pos.GetZ()) <= Math.abs(m_pos.Get());
+      Math.abs(m_pos.GetZ()) <= Math.abs(m_pos.GetW());
   }
 
   // a more general purpose getter

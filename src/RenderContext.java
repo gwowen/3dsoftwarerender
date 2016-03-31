@@ -1,4 +1,6 @@
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class RenderContext extends Bitmap
 {
@@ -33,7 +35,7 @@ public class RenderContext extends Bitmap
   private boolean ClipPolygonAxis(List<Vertex> vertices,
           List<Vertex> auxillaryList, int componentIndex)
   {
-      ClipPolygonComponent(vertices, componentIndex, 1.0f, auxillaryList)
+      ClipPolygonComponent(vertices, componentIndex, 1.0f, auxillaryList);
       vertices.clear();
 
       if(auxillaryList.isEmpty())
@@ -41,7 +43,7 @@ public class RenderContext extends Bitmap
         return false;
       }
 
-      ClipPolygonComponent(auxillaryList. componentIndex, -1.0f, vertices);
+      ClipPolygonComponent(auxillaryList, componentIndex, -1.0f, vertices);
       auxillaryList.clear();
 
       return !vertices.isEmpty();
@@ -53,20 +55,20 @@ public class RenderContext extends Bitmap
       // last vertex looked at in process of clipping
       Vertex previousVertex = vertices.get(vertices.size() - 1);
       float previousComponent = previousVertex.Get(componentIndex) * componentFactor;
-      boolean previousInside = previousComponent <= previousVertex.GetPosition.GetW();
+      boolean previousInside = previousComponent <= previousVertex.GetPosition().GetW();
 
       Iterator<Vertex> it = vertices.iterator();
       while(it.hasNext())
       {
         Vertex currentVertex = it.next();
         float currentComponent = previousVertex.Get(componentIndex) * componentFactor;
-        boolean currentInside = currentComponent <= currentVertex.GetPosition.GetW();
+        boolean currentInside = currentComponent <= currentVertex.GetPosition().GetW();
 
-        if(currentInside ^ previousVertex)
+        if(currentInside ^ previousInside)
         {
             float lerpAmt = (previousVertex.GetPosition().GetW() - previousComponent) /
                 ((previousVertex.GetPosition().GetW() - previousComponent) -
-                (previousVertex.GetPosition().GetW() - currentComponent))
+                (previousVertex.GetPosition().GetW() - currentComponent));
 
             result.add(previousVertex.Lerp(currentVertex, lerpAmt));
         }
@@ -77,7 +79,7 @@ public class RenderContext extends Bitmap
         }
 
         previousVertex = currentVertex;
-        previousInside = currentComponent;
+        previousComponent = currentComponent;
         previousInside = currentInside;
       }
   }
@@ -116,7 +118,7 @@ public class RenderContext extends Bitmap
 
       for(int i = 1; i < vertices.size() -1; i++)
       {
-        FillTriangle(initialVertex, vertices.get(i), vertices.get(i + 1), textures);
+        FillTriangle(initialVertex, vertices.get(i), vertices.get(i + 1), texture);
       }
     }
   }
