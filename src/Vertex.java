@@ -53,6 +53,14 @@ public class Vertex
                       m_texCoords.Lerp(other.GetTexCoords(), lerpAmt));
   }
 
+  public boolean IsInsideViewFrustrum()
+  {
+    return
+      Math.abs(m_pos.GetX()) <= Math.abs(m_pos.GetW()) &&
+      Math.abs(m_pos.GetY()) <= Math.abs(m_pos.GetW()) &&
+      Math.abs(m_pos.GetZ()) <= Math.abs(m_pos.Get());
+  }
+
   // a more general purpose getter
   public float Get(int index)
   {

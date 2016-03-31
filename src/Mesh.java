@@ -17,9 +17,7 @@ public class Mesh
     // convert the loaded OBJ to the internal IndexedModel format
     IndexedModel model = new OBJModel(fileName).ToIndexedModel();
 
-    m_vertices = new ArrayList<Vertex>(
-
-    );
+    m_vertices = new ArrayList<Vertex>();
     // add vertices from model to list
     for(int i = 0; i < model.GetPositions().size(); i++)
     {
@@ -28,5 +26,18 @@ public class Mesh
     }
 
     m_indices = model.GetIndices();
+  }
+
+  public void Draw(RenderContext context, Mat4f transform, Bitmap texture)
+  {
+    for(int i = 0; i < m_indices.size(); i += 3)
+    {
+      context.DrawTriangle(
+        m_vertices.get(m_indices.get(i).Transform(transform),
+        m_vertices.get(m_indices.get(i + 1).Transform(transform),
+        m_vertices.get(m_indices.get(i + 2).Transform(transform),
+        texture);
+      )
+    }
   }
 }

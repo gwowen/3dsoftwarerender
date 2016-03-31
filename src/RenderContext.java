@@ -31,9 +31,20 @@ public class RenderContext extends Bitmap
   }
 
   private boolean ClipPolygonAxis(List<Vertex> vertices,
-          List<Vertex> auxillary, int componentIndex)
+          List<Vertex> auxillaryList, int componentIndex)
   {
+      ClipPolygonComponent(vertices, componentIndex, 1.0f, auxillaryList)
+      vertices.clear();
 
+      if(auxillaryList.isEmpty())
+      {
+        return false;
+      }
+
+      ClipPolygonComponent(auxillaryList. componentIndex, -1.0f, vertices);
+      auxillaryList.clear();
+
+      return !vertices.isEmpty();
   }
 
   private void ClipPolygonComponent(List<Vertex> vertices, int componentIndex,
@@ -71,7 +82,46 @@ public class RenderContext extends Bitmap
       }
   }
 
-  public void FillTriangle(Vertex v1, Vertex v2, Vertex v3, Bitmap texture)
+  public void DrawTriangle(Vertex v1, Vertex v2, Vertex v3, Bitmap texture)
+  {
+    boolean v1Inside = v1.IsInsideViewFrustrum();
+    boolean v2Inside = v2.IsInsideViewFrustrum();
+    boolean v3Inside = v3.IsInsideViewFrustrum();
+
+    // if inside, draw...
+    if(v1Inside && v2Inside && v3Inside)
+    {
+      FillTriangle(v1, v2, v3, texture);
+      return;
+    }
+
+    // if not, don't!
+    if(!v1Inside && !v2Inside && !v3Inside)
+    {
+      return;
+    }
+
+    List<Vertex> vertices = new ArrayList<>();
+    List<Vertex> auxillaryList = new ArrayList<>();
+
+    vertices.add(v1);
+    vertices.add(v2);
+    vertices.add(v3);
+
+    if(ClipPolygonAxis(vertices, auxillaryList, 0) &&
+       ClipPolygonAxis(vertices, auxillaryList, 1) &&
+       ClipPolygonAxis(vertices, auxillaryList, 2))
+    {
+      Vertex initialVertex = vertices.get(0);
+
+      for(int i = 1; i < vertices.size() -1; i++)
+      {
+        FillTriangle(initialVertex, vertices.get(i), vertices.get(i + 1), textures);
+      }
+    }
+  }
+
+  private void FillTriangle(Vertex v1, Vertex v2, Vertex v3, Bitmap texture)
   {
     Mat4f screenSpaceTransform =
       new Mat4f().InitScreenSpaceTransform(GetWidth()/2, GetHeight()/2);
