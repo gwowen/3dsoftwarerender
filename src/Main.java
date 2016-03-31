@@ -34,7 +34,7 @@ public class Main
       previousTime = currentTime;
 
       rotCounter += delta;
-      Mat4f translation = new Mat4f().InitTranslation(0.0f, 0.0f, 3.0f);
+      Mat4f translation = new Mat4f().InitTranslation(0.0f, 0.0f, 3.0f - 3 * (float)Math.sin(rotCounter));
       Mat4f rotation = new Mat4f().InitRotation(rotCounter, 0.0f, rotCounter);
       Mat4f scale = new Mat4f().InitScale(0.001f, 0.001f, 0.001f);
       Mat4f transform = projection.Mul(translation.Mul(rotation));
@@ -54,7 +54,7 @@ public class Main
 
       target.Clear((byte)0x00);
       target.ClearDepthBuffer();
-      target.DrawMesh(mesh, transform, texture);
+      mesh.Draw(target, transform, texture);
       display.SwapBuffers();
     }
   }

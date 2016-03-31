@@ -20,70 +20,6 @@ public class RenderContext extends Bitmap
     }
   }
 
-  public void DrawMesh(Mesh mesh, Mat4f transform, Bitmap texture)
-  {
-    for(int i = 0; i < mesh.GetNumIndices(); i += 3)
-    {
-      FillTriangle(
-        mesh.GetVertex(mesh.GetIndex(i)).Transform(transform),
-        mesh.GetVertex(mesh.GetIndex(i + 1)).Transform(transform),
-        mesh.GetVertex(mesh.GetIndex(i + 2)).Transform(transform),
-        texture);
-    }
-  }
-
-  private boolean ClipPolygonAxis(List<Vertex> vertices,
-          List<Vertex> auxillaryList, int componentIndex)
-  {
-      ClipPolygonComponent(vertices, componentIndex, 1.0f, auxillaryList);
-      vertices.clear();
-
-      if(auxillaryList.isEmpty())
-      {
-        return false;
-      }
-
-      ClipPolygonComponent(auxillaryList, componentIndex, -1.0f, vertices);
-      auxillaryList.clear();
-
-      return !vertices.isEmpty();
-  }
-
-  private void ClipPolygonComponent(List<Vertex> vertices, int componentIndex,
-          float componentFactor, List<Vertex> result)
-  {
-      // last vertex looked at in process of clipping
-      Vertex previousVertex = vertices.get(vertices.size() - 1);
-      float previousComponent = previousVertex.Get(componentIndex) * componentFactor;
-      boolean previousInside = previousComponent <= previousVertex.GetPosition().GetW();
-
-      Iterator<Vertex> it = vertices.iterator();
-      while(it.hasNext())
-      {
-        Vertex currentVertex = it.next();
-        float currentComponent = previousVertex.Get(componentIndex) * componentFactor;
-        boolean currentInside = currentComponent <= currentVertex.GetPosition().GetW();
-
-        if(currentInside ^ previousInside)
-        {
-            float lerpAmt = (previousVertex.GetPosition().GetW() - previousComponent) /
-                ((previousVertex.GetPosition().GetW() - previousComponent) -
-                (previousVertex.GetPosition().GetW() - currentComponent));
-
-            result.add(previousVertex.Lerp(currentVertex, lerpAmt));
-        }
-
-        if(currentInside)
-        {
-          result.add(currentVertex);
-        }
-
-        previousVertex = currentVertex;
-        previousComponent = currentComponent;
-        previousInside = currentInside;
-      }
-  }
-
   public void DrawTriangle(Vertex v1, Vertex v2, Vertex v3, Bitmap texture)
   {
     boolean v1Inside = v1.IsInsideViewFrustrum();
@@ -116,12 +52,66 @@ public class RenderContext extends Bitmap
     {
       Vertex initialVertex = vertices.get(0);
 
-      for(int i = 1; i < vertices.size() -1; i++)
+      for(int i = 1; i < vertices.size() - 1; i++)
       {
         FillTriangle(initialVertex, vertices.get(i), vertices.get(i + 1), texture);
       }
     }
   }
+
+  private boolean ClipPolygonAxis(List<Vertex> vertices,
+          List<Vertex> auxillaryList, int componentIndex)
+  {
+      ClipPolygonComponent(vertices, componentIndex, 1.0f, auxillaryList);
+      vertices.clear();
+
+      if(auxillaryList.isEmpty())
+      {
+        return false;
+      }
+
+      ClipPolygonComponent(auxillaryList, componentIndex, -1.0f, vertices);
+      auxillaryList.clear();
+
+      return !vertices.isEmpty();
+  }
+
+  private void ClipPolygonComponent(List<Vertex> vertices, int componentIndex,
+          float componentFactor, List<Vertex> result)
+  {
+      // last vertex looked at in process of clipping
+      Vertex previousVertex = vertices.get(vertices.size() - 1);
+      float previousComponent = previousVertex.Get(componentIndex) * componentFactor;
+      boolean previousInside = previousComponent <= previousVertex.GetPosition().GetW();
+
+      Iterator<Vertex> it = vertices.iterator();
+      while(it.hasNext())
+      {
+        Vertex currentVertex = it.next();
+        float currentComponent = currentVertex.Get(componentIndex) * componentFactor;
+        boolean currentInside = currentComponent <= currentVertex.GetPosition().GetW();
+
+        if(currentInside ^ previousInside)
+        {
+            float lerpAmt = (previousVertex.GetPosition().GetW() - previousComponent) /
+                ((previousVertex.GetPosition().GetW() - previousComponent) -
+                (currentVertex.GetPosition().GetW() - currentComponent));
+
+            result.add(previousVertex.Lerp(currentVertex, lerpAmt));
+        }
+
+        if(currentInside)
+        {
+          result.add(currentVertex);
+        }
+
+        previousVertex = currentVertex;
+        previousComponent = currentComponent;
+        previousInside = currentInside;
+      }
+  }
+
+
 
   private void FillTriangle(Vertex v1, Vertex v2, Vertex v3, Bitmap texture)
   {
