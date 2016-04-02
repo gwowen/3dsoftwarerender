@@ -49,8 +49,9 @@ public class Vertex
 
   public Vertex Lerp(Vertex other, float lerpAmt)
   {
-    return new Vertex(m_pos.Lerp(other.GetPosition(), lerpAmt),
-                      m_texCoords.Lerp(other.GetTexCoords(), lerpAmt));
+    return new Vertex(
+        m_pos.Lerp(other.GetPosition(), lerpAmt),
+        m_texCoords.Lerp(other.GetTexCoords(), lerpAmt));
   }
 
   public boolean IsInsideViewFrustrum()
