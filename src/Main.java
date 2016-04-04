@@ -1,5 +1,4 @@
 import java.io.IOException;
-// Here is a test comment for demo purposes!
 
 
 public class Main
