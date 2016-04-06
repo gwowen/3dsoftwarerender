@@ -101,9 +101,9 @@ public class Bitmap
       // so basically, we can use the byte type in Java instead, so
       // we're going to discard the alpha component for now. So now it's
       // i * 3 (destination) = i * 4 + 1 to skip over the alpha component
-      dest[i * 3]     = m_components[i* 4 + 1];
-      dest[i * 3 + 1] = m_components[i* 4 + 2];
-      dest[i * 3 + 2] = m_components[i* 4 + 3];
+      dest[i * 3]     = m_components[i * 4 + 1];
+      dest[i * 3 + 1] = m_components[i * 4 + 2];
+      dest[i * 3 + 2] = m_components[i * 4 + 3];
     }
   }
 }

@@ -7,10 +7,6 @@ public class Mesh
   private List<Vertex> m_vertices;
   private List<Integer> m_indices;
 
-  public Vertex GetVertex(int i) { return m_vertices.get(i); }
-  public int GetIndex(int i) { return m_indices.get(i); }
-  public int GetNumIndices() { return m_indices.size(); }
-
   // Load mesh
   public Mesh(String fileName) throws IOException
   {
