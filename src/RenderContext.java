@@ -217,7 +217,6 @@ public class RenderContext extends Bitmap
     for(int i = xMin; i < xMax; i++)
     {
       int index = i + j * GetWidth();
-      //System.out.println(index);
 
       // we only draw the pixel if its value is less than that in the
       // z-buffer
