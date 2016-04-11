@@ -54,6 +54,15 @@ public class Vec4f
 						axis.Mul(this.Dot(axis.Mul(1 - cosAngle))))); //Rotation on local Y
 	}
 
+	public Vec4f Rotate(Quaternion rotation)
+	{
+		Quaternion conjugate = rotation.Conjugate();
+
+		Quaternion w = rotation.Mul(this).Mul(conjugate);
+
+		return new Vec4f(w.GetX(), w.GetY(), w.GetZ(), 1.0f);
+	}
+
 
 	public Vec4f Lerp(Vec4f dest, float lerpFactor)
 	{
