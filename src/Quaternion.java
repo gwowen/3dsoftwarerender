@@ -68,12 +68,15 @@ public class Quaternion
 
   public Quaternion Sub(Quaternion r)
   {
+    return new Quaternion(m_x - r.GetX(), m_y - r.GetY(), m_z - r.GetZ(),
+                          m_w - r.GetW());
 
   }
 
   public Quaternion Add(Quaternion r)
   {
-
+    return new Quaternion(m_x + r.GetX(), m_y + r.GetY(), m_z + r.GetZ(),
+                          m_w + r.GetW());
   }
 
   public Mat4f ToRotationMatrix()
