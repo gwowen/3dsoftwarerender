@@ -86,6 +86,7 @@ public class Quaternion
 
   public float Dot(Quaternion r)
   {
+    return m_x * r.GetX() + m_y * r.GetY() + m_z * r.GetZ() + m_w * r.GetW();
 
   }
 
