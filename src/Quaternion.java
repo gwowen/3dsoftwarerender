@@ -81,7 +81,18 @@ public class Quaternion
 
   public Mat4f ToRotationMatrix()
   {
+    Vec4f forward = new Vec4f(2.0f * (m_x * m_z - m_w * m_y),
+                              2.0f * (m_y * m_z + m_w * m_x),
+                              1.0f - 2.0f * (m_x * m_x + m_y * m_y));
+    Vec4f up = new Vec4f(2.0f * (m_x * m_z + m_w * m_z),
+                         1.0f - 2.0f * (m_x * m_x + m_z * m_z),
+                         2.0f * (m_y * m_z - m_w * m_x));
 
+    Vec4f right = new Vec4f(1.0f - 2.0f * (m_y * m_y + m_z * m_z),
+                            2.0f * (m_x * m_y - m_w * m_z),
+                            2.0f * (m_x * m_z + m_w * m_y));
+
+    return new Mat4f().InitRotation(forward, up, right);
   }
 
   public float Dot(Quaternion r)
@@ -92,16 +103,85 @@ public class Quaternion
 
   public Quaternion NLerp(Quaternion dest, float lerpFactor, boolean shortest)
   {
+    Quaternion correctedDest = dest;
 
+    if(shortest && this.Dot(dest) < 0)
+      correctedDest = new Quaternion(-dest.GetX(), -dest.GetY(), -dest.GetZ(), -dest.GetW());
+
+    return correctedDest.Sub(this).Mul(lerpFactor).Add(this).Normalized();
   }
 
   public Quaternion SLerp(Quaternion dest, float lerpFactor, boolean shortest)
   {
+    final float EPSILON = 1e3f;
 
+    float cos = this.Dot(dest);
+    Quaternion correctedDest = dest;
+
+    if(shortest && cos < 0)
+    {
+      cos = -cos
+      correctedDest = new Quaternion(-dest.GetX(), -dest.GetY(), -dest.GetZ(), -dest.GetW());
+    }
+
+    if(Math.abs(cos) >= 1 - EPSILON)
+      return NLerp(correctedDest, lerpFactor, false);
+
+    float sin = (float)Math.sqrt(1.0f - cos * cos);
+    float angle = (float)Math.atan2(sin, cos);
+    float invSin = 1.0f / sin;
+
+    float srcFactor = (float)Math.sin((1.0f - lerpFactor) * angle) * invSin;
+    float destFactor = (float)Math.sin((lerpFactor) * angle) * invSin;
+
+    return this.Mul(srcFactor).Add(correctedDest.Mul(destFactor));
   }
 
   public Quaternion(Mat4f rot)
   {
+    float trace = rot.Get(0, 0) + rot.Get(1, 1) + rot.Get(2, 2);
+
+    if(trace > 0)
+    {
+      float s = 0.5f / (float)Math.sqrt(trace + 1.0f);
+      m_w = 0.25f / s;
+      m_x = (rot.Get(1, 2) - rot.Get(2, 1)) * s;
+      m_y = (rot.Get(2, 0) - rot.Get(0, 2)) * s;
+      m_z = (rot.Get(0, 1) - rot.Get(1, 0)) * s;
+    }
+    else
+    {
+      if(rot.Get(0, 0) > rot.Get(1, 1) && rot.Get(0, 0) > rot.Get(2, 2))
+      {
+        float s = 2.0f * (float)Math.sqrt(1.0f + rot.Get(0, 0) - rot.Get(1, 1) - rot.Get(2, 2));
+        m_w = (rot.Get(1, 2) - rot.Get(2, 1)) / s;
+        m_x = 0.25f * s;
+        m_y = (rot.Get(1, 0) + rot.Get(0, 1)) / s;
+        m_z = (rot.Get(2, 0) + rot.Get(0, 2)) / s;
+      }
+      else if (rot.Get(1, 1) > rot.Get(2, 2))
+      {
+        float s = 2.0f * (float)Math.sqrt(1.0f + rot.Get(1, 1) - rot.Get(0, 0) - rot.Get(2, 2));
+        m_w = (rot.Get(2, 0) - rot.Get(0, 2)) / s;
+        m_x = (rot.Get(1, 0) + rot.Get(0, 1)) / s;
+        m_y = 0.25f * s;
+        m_z = (rot.Get(2, 1) + rot.Get(1, 2)) / s;
+      }
+      else
+      {
+        float s = 2.0f * (float)Math.sqrt(1.0f + rot.Get(2, 2) - rot.Get(0, 0) - rot.Get(1, 1));
+        m_w = (rot.Get(0, 1) - rot.Get(1, 0)) / s;
+        m_x = (rot.Get(2, 0) + rot.Get(0, 2)) / s;
+        m_y = (rot.Get(1, 2) + rot.Get(2, 1)) / s;
+        m_z = 0.25f * s;
+      }
+
+      float length = (float)Math.sqrt(m_x * m_x + m_y * m_y + m_z * m_z + m_w * m_w);
+      m_x /= length;
+      m_y /= length;
+      m_z /= length;
+      m_w /= length;
+    }
 
   }
 
