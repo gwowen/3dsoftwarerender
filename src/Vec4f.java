@@ -13,6 +13,11 @@ public class Vec4f
 		this.w = w;
 	}
 
+	public Vec4f(float x, float y, float z)
+	{
+		this(x, y, z, 1.0f);
+	}
+
 	public float Length()
 	{
 		return (float)Math.sqrt(x * x + y * y + z * z + w * w);
