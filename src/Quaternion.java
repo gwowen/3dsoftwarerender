@@ -120,7 +120,7 @@ public class Quaternion
 
     if(shortest && cos < 0)
     {
-      cos = -cos
+      cos = -cos;
       correctedDest = new Quaternion(-dest.GetX(), -dest.GetY(), -dest.GetZ(), -dest.GetW());
     }
 

@@ -10,17 +10,15 @@ public class Main
     //Stars3D stars = new Stars3D(3, 64.0f, 4.0f);
 
     Bitmap texture = new Bitmap("./res/bricks.jpg");
-    Mesh mesh = new Mesh("./res/monkey2.obj");
+    Bitmap texture2 = new Bitmap("./res/bricks2.jpg");
+    Mesh monkeyMesh = new Mesh("./res/monkey0.obj");
+    Transform monkeyTransform = new Transform(new Vec4f(0, 0.0f, 3.0f));
 
-    Vertex minYVert = new Vertex(new Vec4f(-1, -1, 0, 1),
-                                 new Vec4f(0.0f, 0.0f, 0.0f, 0.0f));
-    Vertex midYVert = new Vertex(new Vec4f(0, 1, 0, 1),
-                                 new Vec4f(0.5f, 1.0f, 0.0f, 0.0f));
-    Vertex maxYVert = new Vertex(new Vec4f(1, -1, 0, 1),
-                                 new Vec4f(1.0f, 0.0f, 0.0f, 0.0f));
+    Mesh terrainMesh = new Mesh("./res/terrain2.obj");
+    Transform terrainTransform = new Transform(new Vec4f(0, -1.0f, 0.0f));
 
-    Mat4f projection = new Mat4f().InitPerspective((float)Math.toRadians(70.0f),
-      (float)target.GetWidth()/(float)target.GetHeight(), 0.1f, 1000.0f);
+    Camera camera = new Camera(new Mat4f().InitPerspective((float)Math.toRadians(70.0f),
+      (float)target.GetWidth() / (float)target.GetHeight(), 0.1f, 1000.0f));
 
     float rotCounter = 0.0f;
     long previousTime = System.nanoTime();
@@ -33,28 +31,13 @@ public class Main
       float delta = (float)((currentTime - previousTime)/1000000000.0);
       previousTime = currentTime;
 
-      rotCounter += delta;
-      Mat4f translation = new Mat4f().InitTranslation(0.0f, 0.0f, 3.0f - 3 * (float)Math.sin(rotCounter));
-      Mat4f rotation = new Mat4f().InitRotation(rotCounter, 0.0f, rotCounter);
-      Mat4f scale = new Mat4f().InitScale(0.001f, 0.001f, 0.001f);
-      Mat4f transform = projection.Mul(translation.Mul(rotation));
-      //stars.UpdateAndRender(target, delta);
-
-      //target.Clear((byte)0x00);
-
-//      for(int j = 100; j < 200; j++)
-//      {
-//        target.DrawScanBuffer(j, 300 - j, 300 + j);
-//      }
-      //target.FillTriangle(minYVert, midYVert, maxYVert);
-      //target.ScanConvertTriangle(minYVert, midYVert, maxYVert, 0);
-      //target.FillShape(100, 300);
-
-      //stars.UpdateAndRender(target, delta);
+      camera.Update(display.GetInput(), delta);
+      Mat4f vp = camera.GetViewProjection();
 
       target.Clear((byte)0x00);
       target.ClearDepthBuffer();
-      mesh.Draw(target, transform, texture);
+      monkeyMesh.Draw(target, vp.Mul(monkeyTransform.GetTransformation()), texture2);
+      terrainMesh.Draw(target, vp.Mul(terrainTransform.GetTransformation()), texture);
       display.SwapBuffers();
     }
   }

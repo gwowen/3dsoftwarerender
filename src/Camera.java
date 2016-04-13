@@ -2,6 +2,8 @@ import java.awt.event.KeyEvent;
 
 public class Camera
 {
+  private static final Vec4f Y_AXIS = new Vec4f(0, 1, 0);
+  
   private Transform m_transform;
   private Mat4f m_projection;
 
@@ -16,7 +18,7 @@ public class Camera
     this.m_transform = new Transform();
   }
 
-  public Matrix4f GetViewProjection()
+  public Mat4f GetViewProjection()
   {
     Mat4f cameraRotation = GetTransform().GetTransformedRot().Conjugate().ToRotationMatrix();
     Vec4f cameraPos = GetTransform().GetTransformedPos().Mul(-1);

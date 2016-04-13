@@ -2,7 +2,7 @@ public class Transform
 {
   private Vec4f m_pos;
   private Quaternion m_rot;
-  private Vec4f m_pos;
+  private Vec4f m_scale;
 
   public Transform()
   {

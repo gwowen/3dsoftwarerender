@@ -38,7 +38,19 @@ public class Input implements KeyListener, FocusListener,
 
     }
 
+    public void mouseEntered(MouseEvent e)
+    {
+
+    }
+
     public void mousePressed(MouseEvent e)
+    {
+      int code = e.getButton();
+      if(code > 0 && code < mouseButtons.length)
+        mouseButtons[code] = true;
+    }
+
+    public void mouseReleased(MouseEvent e)
     {
       int code = e.getButton();
       if(code > 0 && code < mouseButtons.length)
@@ -72,7 +84,7 @@ public class Input implements KeyListener, FocusListener,
         keys[code] = false;
     }
 
-    public void keyTyped(KeyEven e)
+    public void keyTyped(KeyEvent e)
     {
 
     }
