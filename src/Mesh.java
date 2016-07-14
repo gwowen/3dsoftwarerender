@@ -18,7 +18,8 @@ public class Mesh
     for(int i = 0; i < model.GetPositions().size(); i++)
     {
       m_vertices.add(new Vertex(model.GetPositions().get(i),
-                                model.GetTexCoords().get(i)));
+                                model.GetTexCoords().get(i)),
+                                model.GetNormals().get(i));
     }
 
     m_indices = model.GetIndices();
@@ -26,6 +27,7 @@ public class Mesh
 
   public void Draw(RenderContext context, Mat4f transform, Bitmap texture)
   {
+    Matrix4f mvp = viewProjection.Mul(transform);
     for(int i = 0; i < m_indices.size(); i += 3)
     {
       context.DrawTriangle(
