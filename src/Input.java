@@ -10,7 +10,6 @@ import java.awt.event.MouseMotionListener;
 public class Input implements KeyListener, FocusListener,
   MouseListener, MouseMotionListener
   {
-
     private boolean[] keys = new boolean[65536];
     private boolean[] mouseButtons = new boolean[4];
     private int mouseX = 0;

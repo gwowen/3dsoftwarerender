@@ -2,11 +2,15 @@ public class Vertex
 {
   private Vec4f m_pos;
   private Vec4f m_texCoords;
+  private Vec4f m_normal;
 
+  // x and y getters
   public float GetX() { return m_pos.GetX(); }
   public float GetY() { return m_pos.GetY(); }
+  // getters for position, texcoords and normal
   public Vec4f GetPosition() { return m_pos; }
   public Vec4f GetTexCoords() { return m_texCoords; }
+  public Vec4f GetNormal() { return m_normal; }
 
 
 
@@ -15,21 +19,24 @@ public class Vertex
     m_pos = new Vec4f(x, y, z, 1);
   }
 
-  public Vertex(Vec4f pos, Vec4f texCoords)
+  public Vertex(Vec4f pos, Vec4f texCoords, Vec4f normal)
   {
     m_pos = pos;
     m_texCoords = texCoords;
+    m_normal = normal;
   }
 
-  public Vertex Transform(Mat4f transform)
+  public Vertex Transform(Mat4f transform, Mat4f normalTransform)
   {
-    return new Vertex(transform.Transform(m_pos), m_texCoords);
+    // normalizing is important here if you're scaling.
+    return new Vertex(transform.Transform(m_pos), m_texCoords,
+        normalTransform.Transform(m_normal).Normalized());
   }
 
   public Vertex PerspectiveDivide()
   {
     return new Vertex(new Vec4f(m_pos.GetX()/m_pos.GetW(), m_pos.GetY()/m_pos.GetW(),
-						m_pos.GetZ()/m_pos.GetW(), m_pos.GetW()), m_texCoords);
+						m_pos.GetZ()/m_pos.GetW(), m_pos.GetW()), m_texCoords, m_normal);
   }
 
   // 2D cross product of the line from x1 to x2
@@ -51,7 +58,8 @@ public class Vertex
   {
     return new Vertex(
         m_pos.Lerp(other.GetPosition(), lerpAmt),
-        m_texCoords.Lerp(other.GetTexCoords(), lerpAmt));
+        m_texCoords.Lerp(other.GetTexCoords(), lerpAmt),
+        m_normal.Lerp(other.GetNormal(), lerpAmt));
   }
 
   public boolean IsInsideViewFrustrum()
