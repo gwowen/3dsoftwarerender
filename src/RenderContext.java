@@ -22,20 +22,9 @@ public class RenderContext extends Bitmap
 
   public void DrawTriangle(Vertex v1, Vertex v2, Vertex v3, Bitmap texture)
   {
-    boolean v1Inside = v1.IsInsideViewFrustrum();
-    boolean v2Inside = v2.IsInsideViewFrustrum();
-    boolean v3Inside = v3.IsInsideViewFrustrum();
-
-    // if inside, draw...
-    if(v1Inside && v2Inside && v3Inside)
+    if(v1.IsInsideViewFrustrum() && v2.IsInsideViewFrustrum() && v3.IsInsideViewFrustrum())
     {
       FillTriangle(v1, v2, v3, texture);
-      return;
-    }
-
-    // if not, don't!
-    if(!v1Inside && !v2Inside && !v3Inside)
-    {
       return;
     }
 
@@ -117,9 +106,10 @@ public class RenderContext extends Bitmap
   {
     Mat4f screenSpaceTransform =
       new Mat4f().InitScreenSpaceTransform(GetWidth()/2, GetHeight()/2);
-    Vertex minYVert  = v1.Transform(screenSpaceTransform).PerspectiveDivide();
-    Vertex midYVert  = v2.Transform(screenSpaceTransform).PerspectiveDivide();
-    Vertex maxYVert  = v3.Transform(screenSpaceTransform).PerspectiveDivide();
+    Mat4f identity = new Mat4f().InitIdentity();
+    Vertex minYVert  = v1.Transform(screenSpaceTransform, identity).PerspectiveDivide();
+    Vertex midYVert  = v2.Transform(screenSpaceTransform, identity).PerspectiveDivide();
+    Vertex maxYVert  = v3.Transform(screenSpaceTransform, identity).PerspectiveDivide();
 
     if(minYVert.TriangleAreaTimesTwo(maxYVert, midYVert) >= 0)
     {
@@ -169,11 +159,11 @@ public class RenderContext extends Bitmap
     Edge topToMiddle    = new Edge(gradients, minYVert, midYVert, 0);
     Edge middleToBottom = new Edge(gradients, midYVert, maxYVert, 1);
 
-    ScanEdges(topToBottom, topToMiddle, handedness, texture);
-    ScanEdges(topToBottom, middleToBottom, handedness, texture);
+    ScanEdges(gradients, topToBottom, topToMiddle, handedness, texture);
+    ScanEdges(gradients, topToBottom, middleToBottom, handedness, texture);
   }
 
-  private void ScanEdges(Edge a, Edge b, boolean handedness, Bitmap texture)
+  private void ScanEdges(Gradients gradients, Edge a, Edge b, boolean handedness, Bitmap texture)
   {
     Edge left = a;
     Edge right = b;
@@ -191,28 +181,35 @@ public class RenderContext extends Bitmap
 
     for(int j = yStart; j < yEnd; j++)
     {
-      DrawScanLine(left, right, j, texture);
+      DrawScanLine(gradients, left, right, j, texture);
       left.Step();
       right.Step();
     }
   }
 
-  private void DrawScanLine(Edge left, Edge right, int j, Bitmap texture)
+  private void DrawScanLine(Gradients gradients, Edge left, Edge right, int j, Bitmap texture)
   {
     int xMin = (int)Math.ceil(left.GetX());
     int xMax = (int)Math.ceil(right.GetX());
     float xPrestep = xMin - left.GetX();
 
-    float xDist = right.GetX() - left.GetX();
+    /*float xDist = right.GetX() - left.GetX();
     float texCoordXXStep = (right.GetTexCoordX() - left.GetTexCoordX())/xDist;
     float texCoordYXStep = (right.GetTexCoordY() - left.GetTexCoordY())/xDist;
     float oneOverZXStep = (right.GetOneOverZ() - left.GetOneOverZ())/xDist;
-    float depthXStep = (right.GetDepth() - left.GetDepth())/xDist;
+    float depthXStep = (right.GetDepth() - left.GetDepth())/xDist;*/
+
+    float texCoordXXStep = gradients.GetTexCoordXXStep();
+    float texCoordYXStep = gradients.GetTexCoordYXStep();
+    float oneOverZXStep = gradients.GetOneOverZXStep();
+    float depthXStep = gradients.GetDepthXStep();
+    float lightAmtXStep = gradients.GetLightAmtXStep();
 
     float texCoordX = left.GetTexCoordX() + texCoordXXStep * xPrestep;
     float texCoordY = left.GetTexCoordY() + texCoordYXStep * xPrestep;
     float oneOverZ = left.GetOneOverZ() + oneOverZXStep * xPrestep;
     float depth = left.GetDepth() + depthXStep * xPrestep;
+    float lightAmt = left.GetLightAmt() + lightAmtXStep * xPrestep;
 
     for(int i = xMin; i < xMax; i++)
     {
@@ -235,6 +232,7 @@ public class RenderContext extends Bitmap
       texCoordX += texCoordXXStep;
       texCoordY += texCoordYXStep;
       depth += depthXStep;
+      lightAmt += lightAmtXStep;
     }
   }
 }

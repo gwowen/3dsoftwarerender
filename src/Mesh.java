@@ -18,16 +18,16 @@ public class Mesh
     for(int i = 0; i < model.GetPositions().size(); i++)
     {
       m_vertices.add(new Vertex(model.GetPositions().get(i),
-                                model.GetTexCoords().get(i)),
-                                model.GetNormals().get(i));
+                                model.GetTexCoords().get(i),
+                                model.GetNormals().get(i)));
     }
 
     m_indices = model.GetIndices();
   }
 
-  public void Draw(RenderContext context, Mat4f transform, Bitmap texture)
+  public void Draw(RenderContext context, Mat4f viewProjection, Mat4f transform, Bitmap texture)
   {
-    Matrix4f mvp = viewProjection.Mul(transform);
+    Mat4f mvp = viewProjection.Mul(transform);
     for(int i = 0; i < m_indices.size(); i += 3)
     {
       context.DrawTriangle(
