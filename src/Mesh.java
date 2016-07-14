@@ -31,9 +31,9 @@ public class Mesh
     for(int i = 0; i < m_indices.size(); i += 3)
     {
       context.DrawTriangle(
-        m_vertices.get(m_indices.get(i)).Transform(transform),
-        m_vertices.get(m_indices.get(i + 1)).Transform(transform),
-        m_vertices.get(m_indices.get(i + 2)).Transform(transform),
+        m_vertices.get(m_indices.get(i)).Transform(mvp, transform),
+        m_vertices.get(m_indices.get(i + 1)).Transform(mvp, transform),
+        m_vertices.get(m_indices.get(i + 2)).Transform(mvp, transform),
         texture);
     }
   }
