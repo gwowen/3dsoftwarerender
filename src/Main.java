@@ -36,8 +36,8 @@ public class Main
 
       target.Clear((byte)0x00);
       target.ClearDepthBuffer();
-      monkeyMesh.Draw(target, vp.Mul(monkeyTransform.GetTransformation()), texture2);
-      terrainMesh.Draw(target, vp.Mul(terrainTransform.GetTransformation()), texture);
+      monkeyMesh.Draw(target, vp, monkeyTransform.GetTransformation(), texture2);
+      terrainMesh.Draw(target, vp, terrainTransform.GetTransformation(), texture);
       display.SwapBuffers();
     }
   }
