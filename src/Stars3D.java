@@ -39,12 +39,6 @@ public class Stars3D
 
     float halfWidth = target.GetWidth() / 2.0f;
     float halfHeight = target.GetHeight() / 2.0f;
-    int triangleBuilderCounter = 0;
-
-    int x1 = 0;
-    int y1 = 0;
-    int x2 = 0;
-    int y2 = 0;
 
     for(int i = 0; i < m_starX.length; i++)
     {
