@@ -38,7 +38,7 @@ public class Quaternion
 
   public Quaternion Conjugate()
   {
-    return new Quaternion(-m_x, -m_y, -m_z, -m_w);
+    return new Quaternion(-m_x, -m_y, -m_z, m_w);
   }
 
   public Quaternion Mul(float r)
@@ -48,7 +48,7 @@ public class Quaternion
 
   public Quaternion Mul(Quaternion r)
   {
-    float w_ = m_w * r.GetW() - m_x * r.GetX() - m_y * r.GetY() - m_x * r.GetZ();
+    float w_ = m_w * r.GetW() - m_x * r.GetX() - m_y * r.GetY() - m_z * r.GetZ();
     float x_ = m_x * r.GetW() + m_w * r.GetX() + m_y * r.GetZ() - m_z * r.GetY();
     float y_ = m_y * r.GetW() + m_w * r.GetY() + m_z * r.GetX() - m_x * r.GetZ();
     float z_ = m_z * r.GetW() + m_w * r.GetZ() + m_x * r.GetY() - m_y * r.GetX();
@@ -84,7 +84,7 @@ public class Quaternion
     Vec4f forward = new Vec4f(2.0f * (m_x * m_z - m_w * m_y),
                               2.0f * (m_y * m_z + m_w * m_x),
                               1.0f - 2.0f * (m_x * m_x + m_y * m_y));
-    Vec4f up = new Vec4f(2.0f * (m_x * m_z + m_w * m_z),
+    Vec4f up = new Vec4f(2.0f * (m_x * m_y + m_w * m_z),
                          1.0f - 2.0f * (m_x * m_x + m_z * m_z),
                          2.0f * (m_y * m_z - m_w * m_x));
 
@@ -113,7 +113,7 @@ public class Quaternion
 
   public Quaternion SLerp(Quaternion dest, float lerpFactor, boolean shortest)
   {
-    final float EPSILON = 1e3f;
+    final float EPSILON = 1e-3f;
 
     float cos = this.Dot(dest);
     Quaternion correctedDest = dest;
